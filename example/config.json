@@ -1,0 +1,6 @@
+{
+    "directory": ".",
+    "adminKey": "adm1n",
+    "host": "localhost",
+    "port": 8080
+}
