@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:hive/hive.dart';
 import 'package:logging/logging.dart';
 import 'package:micropub/src/controllers/download.dart';
+import 'package:micropub/src/static/static.g.dart';
 import 'package:micropub/src/utils/middleware_log.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
@@ -44,7 +45,6 @@ class MicropubServer {
     final download = DownloadController(
       storage: storage,
     );
-    final website = WebsiteController();
 
     /// Authenthified controllers
     var apiHandler = const Pipeline()
@@ -59,7 +59,7 @@ class MicropubServer {
         .addHandler(download.router);
 
     // Global routing
-    final router = website.router;
+    final router = buildStaticRouter();
     router.mount('/api', apiHandler);
     router.mount('/packages', downloadHandler);
 

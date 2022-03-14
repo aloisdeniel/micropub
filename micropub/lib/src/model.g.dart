@@ -52,6 +52,16 @@ Map<String, dynamic> _$$_MicropubPackageToJson(_$_MicropubPackage instance) =>
       'updatedAt': jsonFromDateTime(instance.updatedAt),
     };
 
+_$_MicropubMe _$$_MicropubMeFromJson(Map<String, dynamic> json) =>
+    _$_MicropubMe(
+      email: json['email'] as String,
+    );
+
+Map<String, dynamic> _$$_MicropubMeToJson(_$_MicropubMe instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+    };
+
 _$_MicropubQueryResult _$$_MicropubQueryResultFromJson(
         Map<String, dynamic> json) =>
     _$_MicropubQueryResult(

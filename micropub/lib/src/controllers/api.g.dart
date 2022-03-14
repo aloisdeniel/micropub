@@ -13,6 +13,7 @@ Router _$ApiControllerRouter(ApiController service) {
   router.add('DELETE', r'/admin/users/<key>', service.revokeAccessKey);
   router.add('GET', r'/packages/<name>', service.getVersions);
   router.add('GET', r'/packages/<name>/versions/<version>', service.getVersion);
+  router.add('GET', r'/packages', service.getPackages);
   router.add('GET', r'/packages/versions/new', service.getUploadUrl);
   router.add('POST', r'/packages/versions/newUpload', service.upload);
   router.add(

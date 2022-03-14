@@ -44,6 +44,16 @@ class MicropubPackage with _$MicropubPackage {
 }
 
 @Freezed()
+class MicropubMe with _$MicropubMe {
+  const factory MicropubMe({
+    required String email,
+  }) = _MicropubMe;
+
+  factory MicropubMe.fromJson(Map<String, dynamic> map) =>
+      _$MicropubMeFromJson(map);
+}
+
+@Freezed()
 class MicropubQueryResult with _$MicropubQueryResult {
   const factory MicropubQueryResult({
     required int count,

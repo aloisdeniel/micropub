@@ -9,4 +9,6 @@ example/*.hive
 example/*.lock
 example/packages/
 
+static.g.dart
+
 .DS_Store

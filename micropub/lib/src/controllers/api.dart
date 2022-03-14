@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:micropub/src/auth/auth.dart';
 import 'package:micropub/src/model.dart';
 import 'package:micropub/src/storage/storage.dart';
-import 'package:micropub/src/website.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:mime/mime.dart';
 import 'package:collection/collection.dart';
@@ -29,9 +28,9 @@ class ApiController {
 
   @Route.get('/me')
   Future<shelf.Response> me(shelf.Request req) async {
-    return _okWithJson({
-      'email': req.context['email'],
-    });
+    return _okWithJson(MicropubMe(
+      email: req.context['email'] as String,
+    ).toJson());
   }
 
   @Route.post('/admin/users')
@@ -112,6 +111,39 @@ class ApiController {
 
       return _okWithJson(_versionToJson(packageVersion, req.requestedUri));
     });
+  }
+
+  @Route.get('/packages')
+  Future<shelf.Response> getPackages(shelf.Request req) async {
+    var params = req.requestedUri.queryParameters;
+    var size = int.tryParse(params['size'] ?? '') ?? 100;
+    var page = int.tryParse(params['page'] ?? '') ?? 0;
+    var sort = params['sort'] ?? 'download';
+    var q = params['q'];
+
+    String? keyword;
+    String? uploader;
+    String? dependency;
+
+    if (q == null) {
+    } else if (q.startsWith('email:')) {
+      uploader = q.substring(6).trim();
+    } else if (q.startsWith('dependency:')) {
+      dependency = q.substring(11).trim();
+    } else {
+      keyword = q;
+    }
+
+    final result = await storage.queryPackages(
+      size: size,
+      page: page,
+      sort: sort,
+      keyword: keyword,
+      uploader: uploader,
+      dependency: dependency,
+    );
+
+    return _okWithJson(result.toJson());
   }
 
   @Route.get('/packages/versions/new')

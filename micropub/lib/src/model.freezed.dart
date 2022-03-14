@@ -587,6 +587,152 @@ abstract class _MicropubPackage implements MicropubPackage {
       throw _privateConstructorUsedError;
 }
 
+MicropubMe _$MicropubMeFromJson(Map<String, dynamic> json) {
+  return _MicropubMe.fromJson(json);
+}
+
+/// @nodoc
+class _$MicropubMeTearOff {
+  const _$MicropubMeTearOff();
+
+  _MicropubMe call({required String email}) {
+    return _MicropubMe(
+      email: email,
+    );
+  }
+
+  MicropubMe fromJson(Map<String, Object?> json) {
+    return MicropubMe.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $MicropubMe = _$MicropubMeTearOff();
+
+/// @nodoc
+mixin _$MicropubMe {
+  String get email => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MicropubMeCopyWith<MicropubMe> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MicropubMeCopyWith<$Res> {
+  factory $MicropubMeCopyWith(
+          MicropubMe value, $Res Function(MicropubMe) then) =
+      _$MicropubMeCopyWithImpl<$Res>;
+  $Res call({String email});
+}
+
+/// @nodoc
+class _$MicropubMeCopyWithImpl<$Res> implements $MicropubMeCopyWith<$Res> {
+  _$MicropubMeCopyWithImpl(this._value, this._then);
+
+  final MicropubMe _value;
+  // ignore: unused_field
+  final $Res Function(MicropubMe) _then;
+
+  @override
+  $Res call({
+    Object? email = freezed,
+  }) {
+    return _then(_value.copyWith(
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$MicropubMeCopyWith<$Res> implements $MicropubMeCopyWith<$Res> {
+  factory _$MicropubMeCopyWith(
+          _MicropubMe value, $Res Function(_MicropubMe) then) =
+      __$MicropubMeCopyWithImpl<$Res>;
+  @override
+  $Res call({String email});
+}
+
+/// @nodoc
+class __$MicropubMeCopyWithImpl<$Res> extends _$MicropubMeCopyWithImpl<$Res>
+    implements _$MicropubMeCopyWith<$Res> {
+  __$MicropubMeCopyWithImpl(
+      _MicropubMe _value, $Res Function(_MicropubMe) _then)
+      : super(_value, (v) => _then(v as _MicropubMe));
+
+  @override
+  _MicropubMe get _value => super._value as _MicropubMe;
+
+  @override
+  $Res call({
+    Object? email = freezed,
+  }) {
+    return _then(_MicropubMe(
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_MicropubMe implements _MicropubMe {
+  const _$_MicropubMe({required this.email});
+
+  factory _$_MicropubMe.fromJson(Map<String, dynamic> json) =>
+      _$$_MicropubMeFromJson(json);
+
+  @override
+  final String email;
+
+  @override
+  String toString() {
+    return 'MicropubMe(email: $email)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _MicropubMe &&
+            const DeepCollectionEquality().equals(other.email, email));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(email));
+
+  @JsonKey(ignore: true)
+  @override
+  _$MicropubMeCopyWith<_MicropubMe> get copyWith =>
+      __$MicropubMeCopyWithImpl<_MicropubMe>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_MicropubMeToJson(this);
+  }
+}
+
+abstract class _MicropubMe implements MicropubMe {
+  const factory _MicropubMe({required String email}) = _$_MicropubMe;
+
+  factory _MicropubMe.fromJson(Map<String, dynamic> json) =
+      _$_MicropubMe.fromJson;
+
+  @override
+  String get email;
+  @override
+  @JsonKey(ignore: true)
+  _$MicropubMeCopyWith<_MicropubMe> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 MicropubQueryResult _$MicropubQueryResultFromJson(Map<String, dynamic> json) {
   return _MicropubQueryResult.fromJson(json);
 }
