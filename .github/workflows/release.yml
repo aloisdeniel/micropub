@@ -1,0 +1,98 @@
+name: Release
+on:
+  push:
+    tags:
+      - "v*.*.*"
+    branches:
+      - 'main'
+jobs:
+  build-website:
+    name: Build website
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: subosito/flutter-action@v1
+      - name: Build
+        run: |
+          cd ./website
+          flutter pub get
+          flutter build web
+          cd ./scripts
+          dart bundler.dart
+
+  build-server-ubuntu:
+    needs: build-website
+    name: Build server (Ubuntu)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: dart-lang/setup-dart@v1 
+      - name: Build
+        run: |
+          cd ./micropub
+          dart pub get
+          dart compile exe bin/micropub.dart
+      - uses: actions/upload-artifact@master
+        with:
+          name: micropub-ubuntu
+          path: bin/micropub.exe
+
+  build-server-macos:
+    needs: build-website
+    name: Build server (macOS)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: dart-lang/setup-dart@v1 
+      - name: Build
+        run: |
+          cd ./micropub
+          dart pub get
+          dart compile exe bin/micropub.dart
+      - uses: actions/upload-artifact@master
+        with:
+          name: micropub-macos
+          path: bin/micropub.exe
+
+  build-server-windows:
+    needs: build-website
+    name: Build server (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: dart-lang/setup-dart@v1 
+      - name: Build
+        run: |
+          cd ./micropub
+          dart pub get
+          dart compile exe bin/micropub.dart
+      - uses: actions/upload-artifact@master
+        with:
+          name: micropub-macos
+          path: bin/micropub.exe
+
+  publish:
+    needs: [build-server-ubuntu,build-server-macos,,build-server-windows]
+    name: Publish server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: micropub-ubuntu
+          path: dist/ubuntu/micropub.exe
+      - uses: actions/download-artifact@master
+        with:
+          name: micropub-macos
+          path: dist/macos/micropub.exe
+      - uses: actions/download-artifact@master
+        with:
+          name: micropub-windows
+          path: dist/windows/micropub.exe
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/ubuntu/micropub.exe
+            dist/macos/micropub.exe
+            dist/windows/micropub.exe
+  
