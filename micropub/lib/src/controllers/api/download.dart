@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:micropub/src/controllers/api.dart';
+import 'package:micropub/src/controllers/api/api.dart';
 import 'package:micropub/src/model.dart';
 import 'package:micropub/src/storage/storage.dart';
 import 'package:shelf/shelf.dart' as shelf;

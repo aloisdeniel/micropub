@@ -9,6 +9,8 @@ abstract class MicropubAuth {
 
   Future<MicropubAccessKey?> getAccessKey(String key);
 
+  Future<List<MicropubAccessKey>> getAllAccessKeys();
+
   Future<MicropubAccessKey> createKey({
     required String email,
     required List<MicropubAuthorization> authorizations,

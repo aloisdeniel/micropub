@@ -44,9 +44,21 @@ class MicropubPackage with _$MicropubPackage {
 }
 
 @Freezed()
+class MicropubPackageDetails with _$MicropubPackageDetails {
+  const factory MicropubPackageDetails({
+    required MicropubPackage package,
+    String? readme,
+  }) = _MicropubPackageDetails;
+
+  factory MicropubPackageDetails.fromJson(Map<String, dynamic> map) =>
+      _$MicropubPackageDetailsFromJson(map);
+}
+
+@Freezed()
 class MicropubMe with _$MicropubMe {
   const factory MicropubMe({
     required String email,
+    required List<MicropubAuthorization> authorizations,
   }) = _MicropubMe;
 
   factory MicropubMe.fromJson(Map<String, dynamic> map) =>
@@ -67,8 +79,10 @@ class MicropubQueryResult with _$MicropubQueryResult {
 @Freezed()
 class MicropubAccessKey with _$MicropubAccessKey {
   const factory MicropubAccessKey({
+    required String id,
     required String key,
     required String email,
+    required DateTime creationDate,
     required List<MicropubAuthorization> authorizations,
   }) = _MicropubAccessKey;
 

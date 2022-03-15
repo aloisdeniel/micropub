@@ -1,1 +1,1 @@
-dart ../bin/micropub.dart -c config.json
+dart ../bin/micropub.dart -f -c config.json

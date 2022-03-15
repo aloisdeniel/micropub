@@ -28,9 +28,11 @@ class MicropubHiveAuth extends MicropubAuth {
   }) async {
     final key = uuid.v4();
     final accessKey = MicropubAccessKey(
+      id: uuid.v4(),
       key: key,
       email: email,
       authorizations: authorizations,
+      creationDate: DateTime.now(),
     );
     await box.put(key, accessKey.toJson());
     return accessKey;
@@ -38,6 +40,15 @@ class MicropubHiveAuth extends MicropubAuth {
 
   @override
   Future<void> revokeKey(String key) {
-    return box.delete(key);
+    final deleted = box.values
+        .map((x) => MicropubAccessKey.fromJson({...x}))
+        .firstWhere((x) => x.id == key);
+    return box.delete(deleted.key);
+  }
+
+  @override
+  Future<List<MicropubAccessKey>> getAllAccessKeys() {
+    return Future.value(
+        box.values.map((x) => MicropubAccessKey.fromJson({...x})).toList());
   }
 }

@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "micropub"
+		},
+		{
+			"path": "website"
+		}
+	],
+	"settings": {}
+}

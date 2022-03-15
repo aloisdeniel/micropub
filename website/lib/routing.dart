@@ -1,9 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:website/state/notifier.dart';
+import 'package:website/views/admin/admin.dart';
 import 'package:website/views/packages/packages.dart';
 
 import 'views/authentication/authentication.dart';
+import 'views/package/package.dart';
 
 typedef RoutingBuilder = Widget Function(
   BuildContext context,
@@ -34,6 +36,20 @@ class _AppRoutingState extends State<AppRouting> {
             const PackagesView(),
       ),
       GoRoute(
+        path: '/packages/:name',
+        builder: (BuildContext context, GoRouterState state) {
+          final packageName = state.params['name']!;
+          return PackageView(
+            packageName: packageName,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/admin',
+        builder: (BuildContext context, GoRouterState state) =>
+            const AdminView(),
+      ),
+      GoRoute(
         path: '/auth',
         builder: (BuildContext context, GoRouterState state) =>
             const AuthenticationView(),
@@ -46,8 +62,17 @@ class _AppRoutingState extends State<AppRouting> {
         orElse: () => false,
       );
       final loggingIn = state.subloc == '/auth';
-      if (!loggedIn) return loggingIn ? null : '/auth';
-      if (loggingIn) return '/';
+
+      if (!loggedIn) {
+        if (loggingIn) return null;
+
+        final sourceUrl = Uri.encodeQueryComponent(state.subloc);
+        return loggingIn ? null : '/auth?from=$sourceUrl';
+      }
+      if (loggingIn) {
+        final from = state.queryParams['from'];
+        return from != null ? Uri.decodeQueryComponent(from) : '/';
+      }
 
       return null;
     },

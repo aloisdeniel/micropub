@@ -52,15 +52,42 @@ Map<String, dynamic> _$$_MicropubPackageToJson(_$_MicropubPackage instance) =>
       'updatedAt': jsonFromDateTime(instance.updatedAt),
     };
 
+_$_MicropubPackageDetails _$$_MicropubPackageDetailsFromJson(
+        Map<String, dynamic> json) =>
+    _$_MicropubPackageDetails(
+      package:
+          MicropubPackage.fromJson(json['package'] as Map<String, dynamic>),
+      readme: json['readme'] as String?,
+    );
+
+Map<String, dynamic> _$$_MicropubPackageDetailsToJson(
+        _$_MicropubPackageDetails instance) =>
+    <String, dynamic>{
+      'package': instance.package,
+      'readme': instance.readme,
+    };
+
 _$_MicropubMe _$$_MicropubMeFromJson(Map<String, dynamic> json) =>
     _$_MicropubMe(
       email: json['email'] as String,
+      authorizations: (json['authorizations'] as List<dynamic>)
+          .map((e) => $enumDecode(_$MicropubAuthorizationEnumMap, e))
+          .toList(),
     );
 
 Map<String, dynamic> _$$_MicropubMeToJson(_$_MicropubMe instance) =>
     <String, dynamic>{
       'email': instance.email,
+      'authorizations': instance.authorizations
+          .map((e) => _$MicropubAuthorizationEnumMap[e])
+          .toList(),
     };
+
+const _$MicropubAuthorizationEnumMap = {
+  MicropubAuthorization.admin: 'admin',
+  MicropubAuthorization.read: 'read',
+  MicropubAuthorization.write: 'write',
+};
 
 _$_MicropubQueryResult _$$_MicropubQueryResultFromJson(
         Map<String, dynamic> json) =>
@@ -80,8 +107,10 @@ Map<String, dynamic> _$$_MicropubQueryResultToJson(
 
 _$_MicropubAccessKey _$$_MicropubAccessKeyFromJson(Map<String, dynamic> json) =>
     _$_MicropubAccessKey(
+      id: json['id'] as String,
       key: json['key'] as String,
       email: json['email'] as String,
+      creationDate: DateTime.parse(json['creationDate'] as String),
       authorizations: (json['authorizations'] as List<dynamic>)
           .map((e) => $enumDecode(_$MicropubAuthorizationEnumMap, e))
           .toList(),
@@ -90,15 +119,11 @@ _$_MicropubAccessKey _$$_MicropubAccessKeyFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_MicropubAccessKeyToJson(
         _$_MicropubAccessKey instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'key': instance.key,
       'email': instance.email,
+      'creationDate': instance.creationDate.toIso8601String(),
       'authorizations': instance.authorizations
           .map((e) => _$MicropubAuthorizationEnumMap[e])
           .toList(),
     };
-
-const _$MicropubAuthorizationEnumMap = {
-  MicropubAuthorization.admin: 'admin',
-  MicropubAuthorization.read: 'read',
-  MicropubAuthorization.write: 'write',
-};

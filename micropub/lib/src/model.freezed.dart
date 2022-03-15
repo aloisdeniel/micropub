@@ -587,6 +587,191 @@ abstract class _MicropubPackage implements MicropubPackage {
       throw _privateConstructorUsedError;
 }
 
+MicropubPackageDetails _$MicropubPackageDetailsFromJson(
+    Map<String, dynamic> json) {
+  return _MicropubPackageDetails.fromJson(json);
+}
+
+/// @nodoc
+class _$MicropubPackageDetailsTearOff {
+  const _$MicropubPackageDetailsTearOff();
+
+  _MicropubPackageDetails call(
+      {required MicropubPackage package, String? readme}) {
+    return _MicropubPackageDetails(
+      package: package,
+      readme: readme,
+    );
+  }
+
+  MicropubPackageDetails fromJson(Map<String, Object?> json) {
+    return MicropubPackageDetails.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $MicropubPackageDetails = _$MicropubPackageDetailsTearOff();
+
+/// @nodoc
+mixin _$MicropubPackageDetails {
+  MicropubPackage get package => throw _privateConstructorUsedError;
+  String? get readme => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MicropubPackageDetailsCopyWith<MicropubPackageDetails> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MicropubPackageDetailsCopyWith<$Res> {
+  factory $MicropubPackageDetailsCopyWith(MicropubPackageDetails value,
+          $Res Function(MicropubPackageDetails) then) =
+      _$MicropubPackageDetailsCopyWithImpl<$Res>;
+  $Res call({MicropubPackage package, String? readme});
+
+  $MicropubPackageCopyWith<$Res> get package;
+}
+
+/// @nodoc
+class _$MicropubPackageDetailsCopyWithImpl<$Res>
+    implements $MicropubPackageDetailsCopyWith<$Res> {
+  _$MicropubPackageDetailsCopyWithImpl(this._value, this._then);
+
+  final MicropubPackageDetails _value;
+  // ignore: unused_field
+  final $Res Function(MicropubPackageDetails) _then;
+
+  @override
+  $Res call({
+    Object? package = freezed,
+    Object? readme = freezed,
+  }) {
+    return _then(_value.copyWith(
+      package: package == freezed
+          ? _value.package
+          : package // ignore: cast_nullable_to_non_nullable
+              as MicropubPackage,
+      readme: readme == freezed
+          ? _value.readme
+          : readme // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+
+  @override
+  $MicropubPackageCopyWith<$Res> get package {
+    return $MicropubPackageCopyWith<$Res>(_value.package, (value) {
+      return _then(_value.copyWith(package: value));
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$MicropubPackageDetailsCopyWith<$Res>
+    implements $MicropubPackageDetailsCopyWith<$Res> {
+  factory _$MicropubPackageDetailsCopyWith(_MicropubPackageDetails value,
+          $Res Function(_MicropubPackageDetails) then) =
+      __$MicropubPackageDetailsCopyWithImpl<$Res>;
+  @override
+  $Res call({MicropubPackage package, String? readme});
+
+  @override
+  $MicropubPackageCopyWith<$Res> get package;
+}
+
+/// @nodoc
+class __$MicropubPackageDetailsCopyWithImpl<$Res>
+    extends _$MicropubPackageDetailsCopyWithImpl<$Res>
+    implements _$MicropubPackageDetailsCopyWith<$Res> {
+  __$MicropubPackageDetailsCopyWithImpl(_MicropubPackageDetails _value,
+      $Res Function(_MicropubPackageDetails) _then)
+      : super(_value, (v) => _then(v as _MicropubPackageDetails));
+
+  @override
+  _MicropubPackageDetails get _value => super._value as _MicropubPackageDetails;
+
+  @override
+  $Res call({
+    Object? package = freezed,
+    Object? readme = freezed,
+  }) {
+    return _then(_MicropubPackageDetails(
+      package: package == freezed
+          ? _value.package
+          : package // ignore: cast_nullable_to_non_nullable
+              as MicropubPackage,
+      readme: readme == freezed
+          ? _value.readme
+          : readme // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_MicropubPackageDetails implements _MicropubPackageDetails {
+  const _$_MicropubPackageDetails({required this.package, this.readme});
+
+  factory _$_MicropubPackageDetails.fromJson(Map<String, dynamic> json) =>
+      _$$_MicropubPackageDetailsFromJson(json);
+
+  @override
+  final MicropubPackage package;
+  @override
+  final String? readme;
+
+  @override
+  String toString() {
+    return 'MicropubPackageDetails(package: $package, readme: $readme)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _MicropubPackageDetails &&
+            const DeepCollectionEquality().equals(other.package, package) &&
+            const DeepCollectionEquality().equals(other.readme, readme));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(package),
+      const DeepCollectionEquality().hash(readme));
+
+  @JsonKey(ignore: true)
+  @override
+  _$MicropubPackageDetailsCopyWith<_MicropubPackageDetails> get copyWith =>
+      __$MicropubPackageDetailsCopyWithImpl<_MicropubPackageDetails>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_MicropubPackageDetailsToJson(this);
+  }
+}
+
+abstract class _MicropubPackageDetails implements MicropubPackageDetails {
+  const factory _MicropubPackageDetails(
+      {required MicropubPackage package,
+      String? readme}) = _$_MicropubPackageDetails;
+
+  factory _MicropubPackageDetails.fromJson(Map<String, dynamic> json) =
+      _$_MicropubPackageDetails.fromJson;
+
+  @override
+  MicropubPackage get package;
+  @override
+  String? get readme;
+  @override
+  @JsonKey(ignore: true)
+  _$MicropubPackageDetailsCopyWith<_MicropubPackageDetails> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 MicropubMe _$MicropubMeFromJson(Map<String, dynamic> json) {
   return _MicropubMe.fromJson(json);
 }
@@ -595,9 +780,12 @@ MicropubMe _$MicropubMeFromJson(Map<String, dynamic> json) {
 class _$MicropubMeTearOff {
   const _$MicropubMeTearOff();
 
-  _MicropubMe call({required String email}) {
+  _MicropubMe call(
+      {required String email,
+      required List<MicropubAuthorization> authorizations}) {
     return _MicropubMe(
       email: email,
+      authorizations: authorizations,
     );
   }
 
@@ -612,6 +800,8 @@ const $MicropubMe = _$MicropubMeTearOff();
 /// @nodoc
 mixin _$MicropubMe {
   String get email => throw _privateConstructorUsedError;
+  List<MicropubAuthorization> get authorizations =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -624,7 +814,7 @@ abstract class $MicropubMeCopyWith<$Res> {
   factory $MicropubMeCopyWith(
           MicropubMe value, $Res Function(MicropubMe) then) =
       _$MicropubMeCopyWithImpl<$Res>;
-  $Res call({String email});
+  $Res call({String email, List<MicropubAuthorization> authorizations});
 }
 
 /// @nodoc
@@ -638,12 +828,17 @@ class _$MicropubMeCopyWithImpl<$Res> implements $MicropubMeCopyWith<$Res> {
   @override
   $Res call({
     Object? email = freezed,
+    Object? authorizations = freezed,
   }) {
     return _then(_value.copyWith(
       email: email == freezed
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      authorizations: authorizations == freezed
+          ? _value.authorizations
+          : authorizations // ignore: cast_nullable_to_non_nullable
+              as List<MicropubAuthorization>,
     ));
   }
 }
@@ -654,7 +849,7 @@ abstract class _$MicropubMeCopyWith<$Res> implements $MicropubMeCopyWith<$Res> {
           _MicropubMe value, $Res Function(_MicropubMe) then) =
       __$MicropubMeCopyWithImpl<$Res>;
   @override
-  $Res call({String email});
+  $Res call({String email, List<MicropubAuthorization> authorizations});
 }
 
 /// @nodoc
@@ -670,12 +865,17 @@ class __$MicropubMeCopyWithImpl<$Res> extends _$MicropubMeCopyWithImpl<$Res>
   @override
   $Res call({
     Object? email = freezed,
+    Object? authorizations = freezed,
   }) {
     return _then(_MicropubMe(
       email: email == freezed
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      authorizations: authorizations == freezed
+          ? _value.authorizations
+          : authorizations // ignore: cast_nullable_to_non_nullable
+              as List<MicropubAuthorization>,
     ));
   }
 }
@@ -683,17 +883,19 @@ class __$MicropubMeCopyWithImpl<$Res> extends _$MicropubMeCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_MicropubMe implements _MicropubMe {
-  const _$_MicropubMe({required this.email});
+  const _$_MicropubMe({required this.email, required this.authorizations});
 
   factory _$_MicropubMe.fromJson(Map<String, dynamic> json) =>
       _$$_MicropubMeFromJson(json);
 
   @override
   final String email;
+  @override
+  final List<MicropubAuthorization> authorizations;
 
   @override
   String toString() {
-    return 'MicropubMe(email: $email)';
+    return 'MicropubMe(email: $email, authorizations: $authorizations)';
   }
 
   @override
@@ -701,12 +903,16 @@ class _$_MicropubMe implements _MicropubMe {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _MicropubMe &&
-            const DeepCollectionEquality().equals(other.email, email));
+            const DeepCollectionEquality().equals(other.email, email) &&
+            const DeepCollectionEquality()
+                .equals(other.authorizations, authorizations));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(email));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(email),
+      const DeepCollectionEquality().hash(authorizations));
 
   @JsonKey(ignore: true)
   @override
@@ -720,13 +926,17 @@ class _$_MicropubMe implements _MicropubMe {
 }
 
 abstract class _MicropubMe implements MicropubMe {
-  const factory _MicropubMe({required String email}) = _$_MicropubMe;
+  const factory _MicropubMe(
+      {required String email,
+      required List<MicropubAuthorization> authorizations}) = _$_MicropubMe;
 
   factory _MicropubMe.fromJson(Map<String, dynamic> json) =
       _$_MicropubMe.fromJson;
 
   @override
   String get email;
+  @override
+  List<MicropubAuthorization> get authorizations;
   @override
   @JsonKey(ignore: true)
   _$MicropubMeCopyWith<_MicropubMe> get copyWith =>
@@ -914,12 +1124,16 @@ class _$MicropubAccessKeyTearOff {
   const _$MicropubAccessKeyTearOff();
 
   _MicropubAccessKey call(
-      {required String key,
+      {required String id,
+      required String key,
       required String email,
+      required DateTime creationDate,
       required List<MicropubAuthorization> authorizations}) {
     return _MicropubAccessKey(
+      id: id,
       key: key,
       email: email,
+      creationDate: creationDate,
       authorizations: authorizations,
     );
   }
@@ -934,8 +1148,10 @@ const $MicropubAccessKey = _$MicropubAccessKeyTearOff();
 
 /// @nodoc
 mixin _$MicropubAccessKey {
+  String get id => throw _privateConstructorUsedError;
   String get key => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  DateTime get creationDate => throw _privateConstructorUsedError;
   List<MicropubAuthorization> get authorizations =>
       throw _privateConstructorUsedError;
 
@@ -951,7 +1167,11 @@ abstract class $MicropubAccessKeyCopyWith<$Res> {
           MicropubAccessKey value, $Res Function(MicropubAccessKey) then) =
       _$MicropubAccessKeyCopyWithImpl<$Res>;
   $Res call(
-      {String key, String email, List<MicropubAuthorization> authorizations});
+      {String id,
+      String key,
+      String email,
+      DateTime creationDate,
+      List<MicropubAuthorization> authorizations});
 }
 
 /// @nodoc
@@ -965,11 +1185,17 @@ class _$MicropubAccessKeyCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? key = freezed,
     Object? email = freezed,
+    Object? creationDate = freezed,
     Object? authorizations = freezed,
   }) {
     return _then(_value.copyWith(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       key: key == freezed
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
@@ -978,6 +1204,10 @@ class _$MicropubAccessKeyCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      creationDate: creationDate == freezed
+          ? _value.creationDate
+          : creationDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       authorizations: authorizations == freezed
           ? _value.authorizations
           : authorizations // ignore: cast_nullable_to_non_nullable
@@ -994,7 +1224,11 @@ abstract class _$MicropubAccessKeyCopyWith<$Res>
       __$MicropubAccessKeyCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String key, String email, List<MicropubAuthorization> authorizations});
+      {String id,
+      String key,
+      String email,
+      DateTime creationDate,
+      List<MicropubAuthorization> authorizations});
 }
 
 /// @nodoc
@@ -1010,11 +1244,17 @@ class __$MicropubAccessKeyCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? key = freezed,
     Object? email = freezed,
+    Object? creationDate = freezed,
     Object? authorizations = freezed,
   }) {
     return _then(_MicropubAccessKey(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       key: key == freezed
           ? _value.key
           : key // ignore: cast_nullable_to_non_nullable
@@ -1023,6 +1263,10 @@ class __$MicropubAccessKeyCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      creationDate: creationDate == freezed
+          ? _value.creationDate
+          : creationDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       authorizations: authorizations == freezed
           ? _value.authorizations
           : authorizations // ignore: cast_nullable_to_non_nullable
@@ -1035,21 +1279,29 @@ class __$MicropubAccessKeyCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_MicropubAccessKey implements _MicropubAccessKey {
   const _$_MicropubAccessKey(
-      {required this.key, required this.email, required this.authorizations});
+      {required this.id,
+      required this.key,
+      required this.email,
+      required this.creationDate,
+      required this.authorizations});
 
   factory _$_MicropubAccessKey.fromJson(Map<String, dynamic> json) =>
       _$$_MicropubAccessKeyFromJson(json);
 
   @override
+  final String id;
+  @override
   final String key;
   @override
   final String email;
+  @override
+  final DateTime creationDate;
   @override
   final List<MicropubAuthorization> authorizations;
 
   @override
   String toString() {
-    return 'MicropubAccessKey(key: $key, email: $email, authorizations: $authorizations)';
+    return 'MicropubAccessKey(id: $id, key: $key, email: $email, creationDate: $creationDate, authorizations: $authorizations)';
   }
 
   @override
@@ -1057,8 +1309,11 @@ class _$_MicropubAccessKey implements _MicropubAccessKey {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _MicropubAccessKey &&
+            const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.key, key) &&
             const DeepCollectionEquality().equals(other.email, email) &&
+            const DeepCollectionEquality()
+                .equals(other.creationDate, creationDate) &&
             const DeepCollectionEquality()
                 .equals(other.authorizations, authorizations));
   }
@@ -1066,8 +1321,10 @@ class _$_MicropubAccessKey implements _MicropubAccessKey {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(key),
       const DeepCollectionEquality().hash(email),
+      const DeepCollectionEquality().hash(creationDate),
       const DeepCollectionEquality().hash(authorizations));
 
   @JsonKey(ignore: true)
@@ -1083,8 +1340,10 @@ class _$_MicropubAccessKey implements _MicropubAccessKey {
 
 abstract class _MicropubAccessKey implements MicropubAccessKey {
   const factory _MicropubAccessKey(
-          {required String key,
+          {required String id,
+          required String key,
           required String email,
+          required DateTime creationDate,
           required List<MicropubAuthorization> authorizations}) =
       _$_MicropubAccessKey;
 
@@ -1092,9 +1351,13 @@ abstract class _MicropubAccessKey implements MicropubAccessKey {
       _$_MicropubAccessKey.fromJson;
 
   @override
+  String get id;
+  @override
   String get key;
   @override
   String get email;
+  @override
+  DateTime get creationDate;
   @override
   List<MicropubAuthorization> get authorizations;
   @override

@@ -1,15 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'website.dart';
+part of 'api.dart';
 
 // **************************************************************************
 // ShelfRouterGenerator
 // **************************************************************************
 
-Router _$WebsiteControllerRouter(WebsiteController service) {
+Router _$ApiControllerRouter(ApiController service) {
   final router = Router();
-  router.add('GET', r'/', service.index);
-  router.add('GET', r'/index.html', service.index);
-  router.add('GET', r'/admin', service.admin);
+  router.add('GET', r'/me', service.me);
   return router;
 }

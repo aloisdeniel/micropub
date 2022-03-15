@@ -1,9 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:archive/archive_io.dart';
 import 'package:hive/hive.dart';
 import 'package:path/path.dart' as path;
+import 'package:pub_semver/pub_semver.dart' as semver;
 import 'package:micropub/src/model.dart';
+import 'package:collection/collection.dart';
 import 'package:micropub/src/storage/storage.dart';
 
 class MicropubHiveStorage extends MicropubStorage {
@@ -30,12 +34,20 @@ class MicropubHiveStorage extends MicropubStorage {
   @override
   Future<void> addVersion(String name, MicropubVersion version) async {
     final package = await _getPackage(name);
+
+    final versions = [
+      ...package.versions,
+      version,
+    ];
+
+    versions.sort((a, b) {
+      return semver.Version.prioritize(
+          semver.Version.parse(a.version), semver.Version.parse(b.version));
+    });
+
     await _putPackage(
       package.copyWith(
-        versions: [
-          ...package.versions,
-          version,
-        ],
+        versions: versions,
       ),
     );
   }
@@ -57,6 +69,72 @@ class MicropubHiveStorage extends MicropubStorage {
     return await _getPackage(name);
   }
 
+  static MicropubQueryResult filterPackages(
+    List<MicropubPackage> packages, {
+    required int size,
+    required int page,
+    required String sort,
+    String? keyword,
+    String? uploader,
+    String? dependency,
+  }) {
+    var result = packages;
+
+    // Keyword Filtering
+    if (keyword != null && keyword.trim().isNotEmpty) {
+      result = [
+        ...result.where(
+          (x) => x.name.toLowerCase().contains(
+                keyword.toLowerCase().trim(),
+              ),
+        ),
+      ];
+    }
+
+    // Uploader Filtering
+    if (uploader != null && uploader.trim().isNotEmpty) {
+      result = [
+        ...result.where(
+          (x) => (x.uploaders ?? []).any(
+            (x) => x.toLowerCase().trim() == uploader.toLowerCase().trim(),
+          ),
+        ),
+      ];
+    }
+
+    // Dependency Filtering
+    if (dependency != null && dependency.trim().isNotEmpty) {
+      result = [
+        ...result.where((x) => x.versions
+            .any((version) => version.pubspec.containsKey(dependency))),
+      ];
+    }
+
+    // Ordering
+    result = result.toList()
+      ..sort(
+        (x, y) {
+          if (sort == 'updatedAt') {
+            final dx = x.updatedAt;
+            final dy = y.updatedAt;
+            if (dx != null && dy != null) return dy.compareTo(dx);
+            if (dy != null) return 1;
+            if (dx != null) return -1;
+            return 0;
+          }
+          return y.name.compareTo(x.name);
+        },
+      );
+
+    return MicropubQueryResult(
+      count: result.length,
+      packages: [
+        // Pagination
+        ...result.skip(size * page).take(size),
+      ],
+    );
+  }
+
   @override
   Future<MicropubQueryResult> queryPackages({
     required int size,
@@ -67,71 +145,15 @@ class MicropubHiveStorage extends MicropubStorage {
     String? dependency,
   }) async {
     final allPackages = _getAllPackages();
-
-    var result = MicropubQueryResult(
-      count: allPackages.length,
-      packages: allPackages,
+    return filterPackages(
+      allPackages,
+      size: size,
+      page: page,
+      sort: sort,
+      keyword: keyword,
+      uploader: uploader,
+      dependency: dependency,
     );
-
-    // Keyword Filtering
-    if (keyword != null) {
-      result = MicropubQueryResult(
-        count: result.count,
-        packages: [
-          ...result.packages.where((x) =>
-              x.name.toLowerCase().contains(keyword.toLowerCase().trim())),
-        ],
-      );
-    }
-
-    // Uploader Filtering
-    if (uploader != null) {
-      result = MicropubQueryResult(
-        count: result.count,
-        packages: [
-          ...result.packages.where((x) => (x.uploaders ?? []).any(
-              (x) => x.toLowerCase().trim() == uploader.toLowerCase().trim())),
-        ],
-      );
-    }
-
-    // Dependency Filtering
-    if (dependency != null) {
-      result = MicropubQueryResult(
-        count: result.count,
-        packages: [
-          ...result.packages.where((x) => x.versions
-              .any((version) => version.pubspec.containsKey(dependency))),
-        ],
-      );
-    }
-
-    // Ordering
-    result = MicropubQueryResult(
-      count: result.count,
-      packages: result.packages.toList()
-        ..sort((x, y) {
-          if (sort == 'updatedAt') {
-            final dx = x.updatedAt;
-            final dy = y.updatedAt;
-            if (dx != null && dy != null) return dy.compareTo(dx);
-            if (dy != null) return 1;
-            if (dx != null) return -1;
-            return 0;
-          }
-          return y.name.compareTo(x.name);
-        }),
-    );
-
-    // Pagination
-    result = MicropubQueryResult(
-      count: result.count,
-      packages: [
-        ...result.packages.skip(size * page).take(page),
-      ],
-    );
-
-    return result;
   }
 
   @override
@@ -158,6 +180,27 @@ class MicropubHiveStorage extends MicropubStorage {
   Future<void> upload(String name, String version, List<int> content) async {
     final file = await _getPackageArchive(name, version);
     await file.writeAsBytes(content);
+  }
+
+  @override
+  Future<String?> loadReadme(String name) async {
+    final package = await queryPackage(name);
+    if (package == null) throw Exception('Package not found');
+    final archive =
+        await _getPackageArchive(name, package.versions.first.version);
+
+    final inputStream = InputFileStream(archive.path);
+    final decoded = TarDecoder().decodeBuffer(inputStream);
+    final readme = decoded.files.firstWhereOrNull(
+      (x) => x.name.toLowerCase() == 'readme.md',
+    );
+
+    if (readme == null) return null;
+
+    final outputStream = OutputStream();
+    readme.writeContent(outputStream);
+
+    return utf8.decode(outputStream.getBytes());
   }
 
   Future<File> _getPackageArchive(String name, String version) async {

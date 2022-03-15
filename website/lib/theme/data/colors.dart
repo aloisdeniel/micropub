@@ -3,24 +3,66 @@ import 'package:flutter/material.dart';
 
 class ColorData extends Equatable {
   const ColorData({
-    required this.actionBarBackground,
-    required this.actionBarText1,
+    required this.heroBarBackground,
+    required this.heroBarText1,
     required this.bodyAccentText1,
     required this.bodyBackground,
+    required this.heroBarFieldBackground,
     required this.bodyText1,
+    required this.heroBarFieldPlaceholder,
+    required this.heroBarFieldText1,
+    required this.heroBarText2,
+    required this.primaryButtonBackground,
+    required this.primaryButtonForeground,
+    required this.barBarBackground,
+    required this.barBarText1,
+    required this.bodyHoverBackground,
+    required this.tabsBackground,
+    required this.tabsForeground,
+    required this.tabsHoverForeground,
+    required this.tabsSelectedForeground,
   });
 
   const ColorData.light()
-      : actionBarBackground = const Color(0xFF132030),
-        actionBarText1 = const Color(0xFFFFFFFF),
+      : heroBarBackground = const Color(0xFF132030),
+        heroBarText1 = const Color(0xFFFFFFFF),
+        heroBarText2 = const Color(0xFF7C8087),
+        barBarBackground = const Color(0xFF1c2834),
+        barBarText1 = const Color(0xFFFFFFFF),
         bodyBackground = const Color(0xFFFFFFFF),
+        bodyHoverBackground = const Color(0xFFF9F9F9),
         bodyText1 = const Color(0xFF4a4a4a),
-        bodyAccentText1 = const Color(0xFF0175c2);
+        heroBarFieldBackground = const Color(0xFF35404d),
+        heroBarFieldText1 = const Color(0xFFFFFFFF),
+        heroBarFieldPlaceholder = const Color(0xFF767778),
+        bodyAccentText1 = const Color(0xFF0175c2),
+        primaryButtonBackground = const Color(0xFF31b0fc),
+        primaryButtonForeground = const Color(0xFF132030),
+        tabsBackground = const Color(0xFFf5f5f7),
+        tabsForeground = const Color(0xFF4a4a4a),
+        tabsHoverForeground = const Color(0xFFDFDEDD),
+        tabsSelectedForeground = const Color(0xFF1967d2);
 
-  final Color actionBarBackground;
-  final Color actionBarText1;
+  final Color barBarBackground;
+  final Color barBarText1;
+
+  final Color tabsBackground;
+  final Color tabsForeground;
+  final Color tabsHoverForeground;
+  final Color tabsSelectedForeground;
+
+  final Color heroBarBackground;
+  final Color heroBarText1;
+  final Color heroBarText2;
+  final Color heroBarFieldBackground;
+  final Color heroBarFieldText1;
+  final Color heroBarFieldPlaceholder;
+
+  final Color primaryButtonBackground;
+  final Color primaryButtonForeground;
 
   final Color bodyBackground;
+  final Color bodyHoverBackground;
   // Paragraphs
   final Color bodyText1;
   // Package title, links
@@ -28,10 +70,16 @@ class ColorData extends Equatable {
 
   @override
   List<Object?> get props => [
-        actionBarBackground,
-        actionBarText1,
+        heroBarBackground,
+        heroBarText1,
         bodyBackground,
         bodyText1,
         bodyAccentText1,
+        heroBarFieldBackground,
+        heroBarFieldPlaceholder,
+        heroBarFieldText1,
+        primaryButtonBackground,
+        primaryButtonForeground,
+        tabsBackground,
       ];
 }

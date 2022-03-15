@@ -1,22 +1,21 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:micropub/src/auth/auth.dart';
+import 'package:micropub/src/controllers/api/api.dart';
 import 'package:micropub/src/model.dart';
 import 'package:micropub/src/storage/storage.dart';
+import 'package:micropub/src/utils/yaml.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:mime/mime.dart';
 import 'package:collection/collection.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:shelf_router/shelf_router.dart';
-import 'package:pub_semver/pub_semver.dart' as semver;
 import 'package:archive/archive.dart';
 
-import '../utils/yaml.dart';
+part 'packages.g.dart';
 
-part 'api.g.dart';
-
-class ApiController {
-  const ApiController({
+class PackagesApiController {
+  const PackagesApiController({
     required this.auth,
     required this.storage,
   });
@@ -24,44 +23,9 @@ class ApiController {
   final MicropubAuth auth;
   final MicropubStorage storage;
 
-  Router get router => _$ApiControllerRouter(this);
+  Router get router => _$PackagesApiControllerRouter(this);
 
-  @Route.get('/me')
-  Future<shelf.Response> me(shelf.Request req) async {
-    return _okWithJson(MicropubMe(
-      email: req.context['email'] as String,
-    ).toJson());
-  }
-
-  @Route.post('/admin/users')
-  Future<shelf.Response> createAccessKey(shelf.Request req) async {
-    return req.withAuthorizations(MicropubAuthorization.admin, () async {
-      final body = await req.readAsString();
-      final decoded = jsonDecode(body);
-
-      final email = decoded['email'] as String;
-      final authorizations = decoded['authorizations'] as List<String>;
-
-      final result = await auth.createKey(
-        email: email,
-        authorizations: [
-          ...authorizations.map(micropubAuthorizationFromString),
-        ],
-      );
-
-      return _okWithJson(result.toJson());
-    });
-  }
-
-  @Route.delete('/admin/users/<key>')
-  Future<shelf.Response> revokeAccessKey(shelf.Request req, String key) async {
-    return req.withAuthorizations(MicropubAuthorization.admin, () async {
-      await auth.revokeKey(key);
-      return _okWithJson(true);
-    });
-  }
-
-  @Route.get('/packages/<name>')
+  @Route.get('/<name>')
   Future<shelf.Response> getVersions(shelf.Request req, String name) async {
     return req.withAuthorizations(MicropubAuthorization.read, () async {
       var package = await storage.queryPackage(name);
@@ -70,24 +34,40 @@ class ApiController {
         return shelf.Response.notFound('not found');
       }
 
-      package.versions.sort((a, b) {
-        return semver.Version.prioritize(
-            semver.Version.parse(a.version), semver.Version.parse(b.version));
-      });
-
       var versionMaps = package.versions
           .map((item) => _versionToJson(item, req.requestedUri))
           .toList();
 
-      return _okWithJson({
+      return {
         'name': name,
         'latest': versionMaps.last,
         'versions': versionMaps,
-      });
+      }.asJsonResponse();
     });
   }
 
-  @Route.get('/packages/<name>/versions/<version>')
+  @Route.get('/<name>/details')
+  Future<shelf.Response> getPackageDetails(
+      shelf.Request req, String name) async {
+    return req.withAuthorizations(MicropubAuthorization.read, () async {
+      var package = await storage.queryPackage(name);
+
+      if (package == null) {
+        return shelf.Response.notFound('not found');
+      }
+
+      var readme = await storage.loadReadme(name);
+
+      final details = MicropubPackageDetails(
+        package: package,
+        readme: readme,
+      );
+
+      return details.toJson().asJsonResponse();
+    });
+  }
+
+  @Route.get('/<name>/versions/<version>')
   Future<shelf.Response> getVersion(
       shelf.Request req, String name, String version) async {
     return req.withAuthorizations(MicropubAuthorization.read, () async {
@@ -109,11 +89,11 @@ class ApiController {
         return shelf.Response.notFound('Not Found');
       }
 
-      return _okWithJson(_versionToJson(packageVersion, req.requestedUri));
+      return _versionToJson(packageVersion, req.requestedUri).asJsonResponse();
     });
   }
 
-  @Route.get('/packages')
+  @Route.get('/')
   Future<shelf.Response> getPackages(shelf.Request req) async {
     var params = req.requestedUri.queryParameters;
     var size = int.tryParse(params['size'] ?? '') ?? 100;
@@ -143,22 +123,22 @@ class ApiController {
       dependency: dependency,
     );
 
-    return _okWithJson(result.toJson());
+    return result.toJson().asJsonResponse();
   }
 
-  @Route.get('/packages/versions/new')
+  @Route.get('/versions/new')
   Future<shelf.Response> getUploadUrl(shelf.Request req) async {
     return req.withAuthorizations(MicropubAuthorization.read, () async {
-      return _okWithJson({
+      return {
         'url': req.requestedUri
             .resolve('/api/packages/versions/newUpload')
             .toString(),
         'fields': {},
-      });
+      }.asJsonResponse();
     });
   }
 
-  @Route.post('/packages/versions/newUpload')
+  @Route.post('/versions/newUpload')
   Future<shelf.Response> upload(shelf.Request req) async {
     return req.withAuthorizations(MicropubAuthorization.write, () async {
       try {
@@ -267,7 +247,7 @@ class ApiController {
     });
   }
 
-  @Route.get('/packages/versions/newUploadFinish')
+  @Route.get('/versions/newUploadFinish')
   Future<shelf.Response> uploadFinish(shelf.Request req) async {
     return req.withAuthorizations(MicropubAuthorization.write, () async {
       var error = req.requestedUri.queryParameters['error'];
@@ -278,7 +258,7 @@ class ApiController {
     });
   }
 
-  @Route.post('/packages/<name>/uploaders')
+  @Route.post('/<name>/uploaders')
   Future<shelf.Response> addUploader(shelf.Request req, String name) async {
     return req.withAuthorizations(MicropubAuthorization.write, () async {
       var body = await req.readAsString();
@@ -297,7 +277,7 @@ class ApiController {
     });
   }
 
-  @Route.delete('/packages/<name>/uploaders/<email>')
+  @Route.delete('/<name>/uploaders/<email>')
   Future<shelf.Response> removeUploader(
       shelf.Request req, String name, String email) async {
     return req.withAuthorizations(MicropubAuthorization.write, () async {
@@ -317,17 +297,9 @@ class ApiController {
     });
   }
 
-  static shelf.Response _okWithJson(dynamic data) => shelf.Response.ok(
-        json.encode(data),
-        headers: {
-          HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
-          'Access-Control-Allow-Origin': '*'
-        },
-      );
-
-  static shelf.Response _successMessage(String message) => _okWithJson({
+  static shelf.Response _successMessage(String message) => {
         'success': {'message': message}
-      });
+      }.asJsonResponse();
 
   static shelf.Response _badRequest(String message,
           {int status = HttpStatus.badRequest}) =>
@@ -349,17 +321,5 @@ class ApiController {
       'pubspec': item.pubspec,
       'version': version,
     };
-  }
-}
-
-extension RequestExtensions on shelf.Request {
-  Future<shelf.Response> withAuthorizations(
-    MicropubAuthorization authorization,
-    Future<shelf.Response> Function() execute,
-  ) {
-    final authorizations =
-        context['authorizations'] as List<MicropubAuthorization>? ?? [];
-    if (authorizations.contains(authorization)) return execute();
-    return Future.value(shelf.Response.forbidden('Unauthorized'));
   }
 }
