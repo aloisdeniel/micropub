@@ -9,7 +9,7 @@ class StaticController {
 
   Handler get handler {
     final directory = join(
-      dirname(Directory.current.path),
+      Directory.current.path,
       'static',
     );
     return createStaticHandler(
