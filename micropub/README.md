@@ -21,16 +21,16 @@ To run the server, execute the server with arguments:
 * `host`: the server host address
 * `port`: the server port number
 
+> You may need to modify file permissions to run the server
+>
+> ```bash
+> chmod +x micropub.exe
+> ```  
+
 #### From a config file
 
 ```bash
-dart pub global run micropub -c config.json
-```
-
-#### From a environment variables
-
-```bash
-dart pub global run micropub -c config.json
+./micropub.exe -c config.json
 ```
 
 ```json
@@ -42,9 +42,15 @@ dart pub global run micropub -c config.json
 }
 ```
 
-### Create access keys
+#### From a environment variables
 
-### Deploy the server
+```bash
+export directory='.'
+export adminKey='my-sensible-admin-key!'
+export host='localhost'
+export port='8080'
+./micropub.exe 
+```
 
 ## Usage
 
