@@ -83,10 +83,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@master
+        id: download
         with:
           path: artifacts
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: $GITHUB_WORKSPACE/artifacts/*
+          files: ${{steps.download.outputs.download-path}}/artifacts/*
   
