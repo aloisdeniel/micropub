@@ -37,21 +37,24 @@ curl -L $base_download_uri/static.zip -o $outputdir/static.zip
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     echo " <^> Unzipping static.zip"
-    unzip $outputdir/static.zip -d static
+    unzip $outputdir/static.zip -d $outputdir/static
     echo " <~~ Downloading micropub.exe for macOS"
     curl -L $base_download_uri/micropub-macos.exe -o $outputdir/micropub.exe
 elif [[ "$OSTYPE" == "cygwin" ]]; then
     echo " <^> Unzipping static.zip"
-    unzip $outputdir/static.zip -d static
+    unzip $outputdir/static.zip -d $outputdir/static
     echo " <~~ Downloading micropub.exe for Windows"
     curl -L $base_download_uri/micropub-windows.exe -o $outputdir/micropub.exe
 else
     echo " <^> Unzipping static.zip"
     apt install unzip
-    unzip $outputdir/static.zip -d static
+    unzip $outputdir/static.zip -d $outputdir/static
     echo " <~~ Downloading micropub.exe for Ubuntu"
     curl -L $base_download_uri/micropub-ubuntu.exe -o $outputdir/micropub.exe
 fi
+
+echo " ~x~ Deleting static.zip"
+rm -r $outputdir/static.zip
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo "[✓] Installed!"

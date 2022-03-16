@@ -5,7 +5,7 @@ import 'package:path/path.dart';
 
 Future<void> main() async {
   final input = Directory('../build/web');
-  final output = Directory('../../micropub/static/');
+  final output = Directory('../../micropub/bin/static/');
   await _copyDirectory(input, output);
 }
 

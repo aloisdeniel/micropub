@@ -19,7 +19,7 @@ jobs:
           dart bundler.dart
       - uses: papeloto/action-zip@v1
         with:
-          files: micropub/static/
+          files: micropub/bin/static/
           dest: static.zip
       - uses: actions/upload-artifact@master
         with:
