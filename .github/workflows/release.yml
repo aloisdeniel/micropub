@@ -91,8 +91,8 @@ jobs:
       - name: Renamming files
         run: |
             mv ${{steps.download.outputs.download-path}}/micropub-ubuntu/micropub.exe ${{steps.download.outputs.download-path}}/micropub-macos/micropub-macos.exe
-            mv ${{steps.download.outputs.download-path}}/micropub-ubuntu/windows.exe ${{steps.download.outputs.download-path}}/micropub-windows/micropub-windows.exe
-            mv ${{steps.download.outputs.download-path}}/micropub-ubuntu/ubuntu.exe ${{steps.download.outputs.download-path}}/micropub-ubuntu/micropub-ubuntu.exe
+            mv ${{steps.download.outputs.download-path}}/micropub-windows/micropub.exe ${{steps.download.outputs.download-path}}/micropub-windows/micropub-windows.exe
+            mv ${{steps.download.outputs.download-path}}/micropub-ubuntu/micropub.exe ${{steps.download.outputs.download-path}}/micropub-ubuntu/micropub-ubuntu.exe
     
       - name: Release
         uses: softprops/action-gh-release@v1
