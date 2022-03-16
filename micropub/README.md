@@ -6,10 +6,10 @@ A minimalist private pub server for small teams.
 
 ### Install
 
-Install globally the `micropub` package.
+To install the server on your server from the `install.sh` script.
 
 ```bash
-dart pub global activate micropub
+curl -s https://raw.githubusercontent.com/aloisdeniel/micropub/main/install.sh | bash -s v0.0.16
 ```
 
 ### Run the server

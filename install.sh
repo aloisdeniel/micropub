@@ -33,24 +33,24 @@ fi
 
 
 echo " <~~ Downloading static.zip"
-curl $base_download_uri/static.zip -o $outputdir/static.zip
+curl -L $base_download_uri/static.zip -o $outputdir/static.zip
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     echo " <^> Unzipping static.zip"
     unzip $outputdir/static.zip -d static
     echo " <~~ Downloading micropub.exe for macOS"
-    curl $base_download_uri/micropub-macos.exe -o $outputdir/micropub.exe
+    curl -L $base_download_uri/micropub-macos.exe -o $outputdir/micropub.exe
 elif [[ "$OSTYPE" == "cygwin" ]]; then
     echo " <^> Unzipping static.zip"
     unzip $outputdir/static.zip -d static
     echo " <~~ Downloading micropub.exe for Windows"
-    curl $base_download_uri/micropub-windows.exe -o $outputdir/micropub.exe
+    curl -L $base_download_uri/micropub-windows.exe -o $outputdir/micropub.exe
 else
     echo " <^> Unzipping static.zip"
     apt install unzip
     unzip $outputdir/static.zip -d static
     echo " <~~ Downloading micropub.exe for Ubuntu"
-    curl $base_download_uri/micropub-ubuntu.exe -o $outputdir/micropub.exe
+    curl -L $base_download_uri/micropub-ubuntu.exe -o $outputdir/micropub.exe
 fi
 
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
