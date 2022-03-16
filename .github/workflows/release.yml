@@ -89,5 +89,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{steps.download.outputs.download-path}}/artifacts/*
+          files: ${{steps.download.outputs.download-path}}/*
   
