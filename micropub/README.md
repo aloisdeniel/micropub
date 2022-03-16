@@ -1,6 +1,6 @@
 # micropub
 
-A basic private pub server for small teams.
+A minimalist private pub server for small teams.
 
 ## Setup
 

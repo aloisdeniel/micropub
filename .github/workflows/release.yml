@@ -3,8 +3,6 @@ on:
   push:
     tags:
       - "v*.*.*"
-    branches:
-      - 'main'
 jobs:
   build-website:
     name: Build website
@@ -72,7 +70,7 @@ jobs:
           dart compile exe bin/micropub.dart
       - uses: actions/upload-artifact@master
         with:
-          name: micropub-macos
+          name: micropub-windows
           path: micropub/bin/micropub.exe
 
   publish:
