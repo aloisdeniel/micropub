@@ -86,6 +86,8 @@ jobs:
         id: download
         with:
           path: artifacts
+      - name: List artifact files
+        run: ls -R
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
