@@ -12,6 +12,12 @@ To install the server on your server from the `install.sh` script.
 curl -s https://raw.githubusercontent.com/aloisdeniel/micropub/main/install.sh | bash -s v0.0.16
 ```
 
+> You may need to install `unzip` tool before install.
+>
+> ```bash
+> sudo apt install zip
+> ```
+
 ### Run the server
 
 To run the server, execute the server with arguments:

@@ -18,6 +18,7 @@ echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 mkdir -p $outputdir
 
 # Delete previous version if exists
+echo ""
 if [[ -e $outputdir/micropub.exe ]]; then
     echo " ~x~ Deleting micropub.exe"
     rm -r $outputdir/micropub.exe
@@ -32,29 +33,30 @@ if [[ -e $outputdir/static ]]; then
 fi
 
 
+echo ""
 echo " <~~ Downloading static.zip"
 curl -L $base_download_uri/static.zip -o $outputdir/static.zip
 
+echo ""
+echo " <^> Unzipping static.zip"
+unzip $outputdir/static.zip -d $outputdir/static
+echo ""
+
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    echo " <^> Unzipping static.zip"
-    unzip $outputdir/static.zip -d $outputdir/static
     echo " <~~ Downloading micropub.exe for macOS"
     curl -L $base_download_uri/micropub-macos.exe -o $outputdir/micropub.exe
 elif [[ "$OSTYPE" == "cygwin" ]]; then
-    echo " <^> Unzipping static.zip"
-    unzip $outputdir/static.zip -d $outputdir/static
     echo " <~~ Downloading micropub.exe for Windows"
     curl -L $base_download_uri/micropub-windows.exe -o $outputdir/micropub.exe
 else
-    echo " <^> Unzipping static.zip"
-    apt install unzip
-    unzip $outputdir/static.zip -d $outputdir/static
     echo " <~~ Downloading micropub.exe for Ubuntu"
     curl -L $base_download_uri/micropub-ubuntu.exe -o $outputdir/micropub.exe
 fi
 
+echo ""
 echo " ~x~ Deleting static.zip"
 rm -r $outputdir/static.zip
 
+echo ""
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo "[✓] Installed!"
