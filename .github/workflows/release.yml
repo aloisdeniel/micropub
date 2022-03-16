@@ -19,6 +19,10 @@ jobs:
           flutter build web
           cd ./scripts
           dart bundler.dart
+      - uses: actions/upload-artifact@master
+        with:
+          name: static
+          path: micropub/static
 
   build-server-ubuntu:
     needs: build-website
@@ -35,7 +39,7 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: micropub-ubuntu
-          path: bin/micropub.exe
+          path: micropub/bin/micropub.exe
 
   build-server-macos:
     needs: build-website
@@ -52,7 +56,7 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: micropub-macos
-          path: bin/micropub.exe
+          path: micropub/bin/micropub.exe
 
   build-server-windows:
     needs: build-website
@@ -69,7 +73,7 @@ jobs:
       - uses: actions/upload-artifact@master
         with:
           name: micropub-macos
-          path: bin/micropub.exe
+          path: micropub/bin/micropub.exe
 
   publish:
     needs: [build-server-ubuntu,build-server-macos,build-server-windows]
@@ -88,6 +92,14 @@ jobs:
         with:
           name: micropub-windows
           path: dist/windows/micropub.exe
+      - uses: actions/download-artifact@master
+        with:
+          name: static
+          path: dist/static
+      - uses: papeloto/action-zip@v1
+        with:
+          files: dist/static/
+          dest: static.zip
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
@@ -95,4 +107,5 @@ jobs:
             dist/ubuntu/micropub.exe
             dist/macos/micropub.exe
             dist/windows/micropub.exe
+            dist/static.zip
   
