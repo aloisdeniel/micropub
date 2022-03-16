@@ -89,5 +89,9 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{steps.download.outputs.download-path}}/*
+          files: |
+            ${{steps.download.outputs.download-path}}/micropub-macos
+            ${{steps.download.outputs.download-path}}/micropub-windows
+            ${{steps.download.outputs.download-path}}/micropub-ubuntu
+            ${{steps.download.outputs.download-path}}/static.zip
   
