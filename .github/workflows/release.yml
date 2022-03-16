@@ -90,7 +90,7 @@ jobs:
         run: ls -R
       - name: Renamming files
         run: |
-            mv ${{steps.download.outputs.download-path}}/micropub-ubuntu/micropub.exe ${{steps.download.outputs.download-path}}/micropub-macos/micropub-macos.exe
+            mv ${{steps.download.outputs.download-path}}/micropub-macos/micropub.exe ${{steps.download.outputs.download-path}}/micropub-macos/micropub-macos.exe
             mv ${{steps.download.outputs.download-path}}/micropub-windows/micropub.exe ${{steps.download.outputs.download-path}}/micropub-windows/micropub-windows.exe
             mv ${{steps.download.outputs.download-path}}/micropub-ubuntu/micropub.exe ${{steps.download.outputs.download-path}}/micropub-ubuntu/micropub-ubuntu.exe
     
