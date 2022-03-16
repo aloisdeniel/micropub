@@ -88,12 +88,18 @@ jobs:
           path: artifacts
       - name: List artifact files
         run: ls -R
+      - name: Renamming files
+        run: |
+            mv ${{steps.download.outputs.download-path}}/micropub-ubuntu/micropub.exe ${{steps.download.outputs.download-path}}/micropub-macos/micropub-macos.exe
+            mv ${{steps.download.outputs.download-path}}/micropub-ubuntu/windows.exe ${{steps.download.outputs.download-path}}/micropub-windows/micropub-windows.exe
+            mv ${{steps.download.outputs.download-path}}/micropub-ubuntu/ubuntu.exe ${{steps.download.outputs.download-path}}/micropub-ubuntu/micropub-ubuntu.exe
+    
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ${{steps.download.outputs.download-path}}/micropub-macos/micropub.exe
-            ${{steps.download.outputs.download-path}}/micropub-windows/micropub.exe
-            ${{steps.download.outputs.download-path}}/micropub-ubuntu/micropub.exe
+            ${{steps.download.outputs.download-path}}/micropub-macos/micropub-macos.exe
+            ${{steps.download.outputs.download-path}}/micropub-windows/micropub-windows.exe
+            ${{steps.download.outputs.download-path}}/micropub-ubuntu/micropub-ubuntu.exe
             ${{steps.download.outputs.download-path}}/static/static.zip
   
