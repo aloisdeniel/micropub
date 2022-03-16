@@ -88,5 +88,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: micropub/artifacts/*
+          files:  ${{ env.$GITHUB_ACTION_PATH }}/artifacts/*
   
