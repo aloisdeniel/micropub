@@ -1,6 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
-import 'package:website/state/notifier.dart';
 import 'package:website/theme/theme.dart';
 
 import 'text_button.dart';
@@ -13,7 +11,6 @@ class AppFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
-    final appState = context.watch<AppStateNotifier>().value;
     return DefaultTextStyle(
       style: theme.typography.title3.copyWith(
         color: theme.color.barBarText1,
