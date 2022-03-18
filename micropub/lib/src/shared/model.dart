@@ -14,7 +14,7 @@ const jsonDateTime =
 
 @Freezed()
 class MicropubVersion with _$MicropubVersion {
-  @JsonSerializable(explicitToJson: true)
+  @JsonSerializable(explicitToJson: true, anyMap: true)
   const factory MicropubVersion({
     required String version,
     required Map<String, dynamic> pubspec,
@@ -31,7 +31,7 @@ class MicropubVersion with _$MicropubVersion {
 
 @Freezed()
 class MicropubPackage with _$MicropubPackage {
-  @JsonSerializable(explicitToJson: true)
+  @JsonSerializable(explicitToJson: true, anyMap: true)
   const factory MicropubPackage({
     required String name,
     required List<MicropubVersion> versions,
@@ -47,6 +47,7 @@ class MicropubPackage with _$MicropubPackage {
 
 @Freezed()
 class MicropubPackageDetails with _$MicropubPackageDetails {
+  @JsonSerializable(explicitToJson: true, anyMap: true)
   const factory MicropubPackageDetails({
     required MicropubPackage package,
     String? readme,
@@ -58,7 +59,7 @@ class MicropubPackageDetails with _$MicropubPackageDetails {
 
 @Freezed()
 class MicropubMe with _$MicropubMe {
-  @JsonSerializable(explicitToJson: true)
+  @JsonSerializable(explicitToJson: true, anyMap: true)
   const factory MicropubMe({
     required String email,
     required List<MicropubAuthorization> authorizations,
@@ -70,7 +71,7 @@ class MicropubMe with _$MicropubMe {
 
 @Freezed()
 class MicropubQueryResult with _$MicropubQueryResult {
-  @JsonSerializable(explicitToJson: true)
+  @JsonSerializable(explicitToJson: true, anyMap: true)
   const factory MicropubQueryResult({
     required int count,
     required List<MicropubPackage> packages,
@@ -82,7 +83,7 @@ class MicropubQueryResult with _$MicropubQueryResult {
 
 @Freezed()
 class MicropubAccessKey with _$MicropubAccessKey {
-  @JsonSerializable(explicitToJson: true)
+  @JsonSerializable(explicitToJson: true, anyMap: true)
   const factory MicropubAccessKey({
     required String id,
     required String key,

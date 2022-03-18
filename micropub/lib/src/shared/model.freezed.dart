@@ -206,7 +206,7 @@ class __$MicropubVersionCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, anyMap: true)
 class _$_MicropubVersion implements _MicropubVersion {
   const _$_MicropubVersion(
       {required this.version,
@@ -490,7 +490,7 @@ class __$MicropubPackageCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, anyMap: true)
 class _$_MicropubPackage implements _MicropubPackage {
   const _$_MicropubPackage(
       {required this.name,
@@ -712,7 +712,8 @@ class __$MicropubPackageDetailsCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true, anyMap: true)
 class _$_MicropubPackageDetails implements _MicropubPackageDetails {
   const _$_MicropubPackageDetails({required this.package, this.readme});
 
@@ -884,7 +885,7 @@ class __$MicropubMeCopyWithImpl<$Res> extends _$MicropubMeCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, anyMap: true)
 class _$_MicropubMe implements _MicropubMe {
   const _$_MicropubMe({required this.email, required this.authorizations});
 
@@ -1057,7 +1058,7 @@ class __$MicropubQueryResultCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, anyMap: true)
 class _$_MicropubQueryResult implements _MicropubQueryResult {
   const _$_MicropubQueryResult({required this.count, required this.packages});
 
@@ -1281,7 +1282,7 @@ class __$MicropubAccessKeyCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, anyMap: true)
 class _$_MicropubAccessKey implements _MicropubAccessKey {
   const _$_MicropubAccessKey(
       {required this.id,

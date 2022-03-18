@@ -221,7 +221,7 @@ class MicropubHiveStorage extends MicropubStorage {
 
   List<MicropubPackage> _getAllPackages() {
     return box.values
-        .map((data) => MicropubPackage.fromJson(<String, dynamic>{...data}))
+        .map((data) => MicropubPackage.fromJson(data.asNormalizedJson()))
         .toList();
   }
 
@@ -229,7 +229,7 @@ class MicropubHiveStorage extends MicropubStorage {
     final data = await box.get(name);
 
     return data != null
-        ? MicropubPackage.fromJson(<String, dynamic>{...data})
+        ? MicropubPackage.fromJson(data.asNormalizedJson())
         : MicropubPackage(
             name: name,
             versions: [],
