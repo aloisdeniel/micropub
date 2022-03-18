@@ -221,7 +221,7 @@ class MicropubHiveStorage extends MicropubStorage {
 
   List<MicropubPackage> _getAllPackages() {
     return box.values
-        .map((data) => MicropubPackage.fromJson(data.asNormalizedJson()))
+        .map((data) => MicropubPackage.fromJson(_asNormalizedJson(data)))
         .toList();
   }
 
@@ -229,7 +229,7 @@ class MicropubHiveStorage extends MicropubStorage {
     final data = await box.get(name);
 
     return data != null
-        ? MicropubPackage.fromJson(data.asNormalizedJson())
+        ? MicropubPackage.fromJson(_asNormalizedJson(data))
         : MicropubPackage(
             name: name,
             versions: [],
@@ -245,21 +245,18 @@ class MicropubHiveStorage extends MicropubStorage {
   }
 }
 
-extension NormalizedMapsExtension on dynamic {
-  dynamic asNormalizedJson() {
-    final value = this;
-    if (value is Map) {
-      return map<String, dynamic>(
-        (key, value) {
-          return MapEntry(key.toString(), value.asNormalizedJson());
-        },
-      );
-    }
-    if (value is List) {
-      return [
-        ...value.map((e) => e.asNormalizedJson()),
-      ];
-    }
-    return value;
+dynamic _asNormalizedJson(dynamic value) {
+  if (value is Map) {
+    return value.map<String, dynamic>(
+      (key, value) {
+        return MapEntry(key.toString(), _asNormalizedJson(value));
+      },
+    );
   }
+  if (value is List) {
+    return [
+      ...value.map(_asNormalizedJson),
+    ];
+  }
+  return value;
 }
