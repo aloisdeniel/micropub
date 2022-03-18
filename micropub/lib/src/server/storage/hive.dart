@@ -220,14 +220,16 @@ class MicropubHiveStorage extends MicropubStorage {
   }
 
   List<MicropubPackage> _getAllPackages() {
-    return box.values.map((data) => MicropubPackage.fromJson(data)).toList();
+    return box.values
+        .map((data) => MicropubPackage.fromJson(<String, dynamic>{...data}))
+        .toList();
   }
 
   Future<MicropubPackage> _getPackage(String name) async {
-    final data = await box.get(name) as Map<String, dynamic>?;
+    final data = await box.get(name);
 
     return data != null
-        ? MicropubPackage.fromJson(data)
+        ? MicropubPackage.fromJson(<String, dynamic>{...data})
         : MicropubPackage(
             name: name,
             versions: [],
