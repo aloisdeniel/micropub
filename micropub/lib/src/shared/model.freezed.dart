@@ -205,7 +205,8 @@ class __$MicropubVersionCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$_MicropubVersion implements _MicropubVersion {
   const _$_MicropubVersion(
       {required this.version,

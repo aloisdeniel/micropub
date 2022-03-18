@@ -14,6 +14,7 @@ const jsonDateTime =
 
 @Freezed()
 class MicropubVersion with _$MicropubVersion {
+  @JsonSerializable(explicitToJson: true)
   const factory MicropubVersion({
     required String version,
     required Map<String, dynamic> pubspec,

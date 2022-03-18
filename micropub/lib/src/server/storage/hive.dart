@@ -244,3 +244,22 @@ class MicropubHiveStorage extends MicropubStorage {
     await box.put(package.name, package.toJson());
   }
 }
+
+extension NormalizedMapsExtension on dynamic {
+  dynamic asNormalizedJson() {
+    final value = this;
+    if (value is Map) {
+      return map<String, dynamic>(
+        (key, value) {
+          return MapEntry(key.toString(), value.asNormalizedJson());
+        },
+      );
+    }
+    if (value is List) {
+      return [
+        ...value.map((e) => e.asNormalizedJson()),
+      ];
+    }
+    return value;
+  }
+}
