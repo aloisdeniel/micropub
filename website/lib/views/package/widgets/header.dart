@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tap_builder/tap_builder.dart';
-import 'package:website/services/model.dart';
+import 'package:micropub/client.dart';
 import 'package:website/theme/theme.dart';
 import 'package:timeago/timeago.dart' as timeago;
 

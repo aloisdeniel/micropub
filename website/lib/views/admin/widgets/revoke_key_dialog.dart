@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:website/services/model.dart';
+import 'package:micropub/client.dart';
 import 'package:website/state/notifier.dart';
 
 class RevokeKeyDialog extends StatefulWidget {

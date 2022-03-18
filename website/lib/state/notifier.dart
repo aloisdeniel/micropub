@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:website/services/api.dart';
-import 'package:website/services/model.dart';
+import 'package:micropub/client.dart';
 import 'package:website/state/state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,7 +29,10 @@ class AppStateNotifier extends ValueNotifier<AppState> {
   Future<void> authenticate(String accessKey) async {
     try {
       value = const AppState.authenticating();
-      final client = ApiClient(accessKey: accessKey);
+      final client = MicropubApiClient(
+        baseUri: kDebugMode ? 'http://localhost:8080/api' : '/api',
+        accessKey: accessKey,
+      );
       final me = await client.me();
       value = AppState.authenticated(
         me: me,
@@ -240,7 +243,7 @@ class AppStateNotifier extends ValueNotifier<AppState> {
   }
 
   Future<PackagesState> _loadPackages(
-    ApiClient client,
+    MicropubApiClient client,
     int page,
     int pageSize,
     String query,
@@ -270,7 +273,8 @@ class AppStateNotifier extends ValueNotifier<AppState> {
     }
   }
 
-  Future<PackageState> _loadPackage(ApiClient client, String name) async {
+  Future<PackageState> _loadPackage(
+      MicropubApiClient client, String name) async {
     try {
       final result = await client.getPackageDetails(name);
 

@@ -3,7 +3,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tap_builder/tap_builder.dart';
-import 'package:website/services/model.dart';
+import 'package:micropub/client.dart';
 import 'package:website/theme/theme.dart';
 
 class PackageTile extends StatelessWidget {

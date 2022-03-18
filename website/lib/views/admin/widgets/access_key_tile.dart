@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:tap_builder/tap_builder.dart';
-import 'package:website/services/model.dart';
+import 'package:micropub/client.dart';
 import 'package:website/theme/theme.dart';
 import 'package:website/views/admin/widgets/revoke_key_dialog.dart';
 import 'package:website/widgets/flat_button.dart';

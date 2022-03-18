@@ -1,13 +1,15 @@
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
-import 'package:website/services/model.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:micropub/src/shared/model.dart';
+import 'package:path/path.dart';
 
-class ApiClient {
-  const ApiClient({
+class MicropubApiClient {
+  const MicropubApiClient({
     required this.accessKey,
-    this.baseUri = kDebugMode ? 'http://localhost:8080/api' : '/api',
+    this.baseUri = '/',
   });
 
   final String baseUri;
@@ -80,6 +82,36 @@ class ApiClient {
     );
   }
 
+  Future<void> uploadPackage({
+    required String name,
+    required String version,
+    required List<int> archive,
+  }) async {
+    final gzipArchive = GZipCodec().encode(archive);
+
+    final file = MultipartFile(
+      'file',
+      Stream.fromIterable([gzipArchive]),
+      gzipArchive.length,
+      filename: '$name-$version.tar',
+      contentType: MediaType('application', 'x-tar'),
+    );
+
+    final request =
+        MultipartRequest("POST", _buildUri('/packages/versions/newUpload'));
+    request.headers.addAll({
+      'authorization': 'bearer $accessKey',
+    });
+    request.files.add(file);
+    final response = await request.send();
+    if (response.statusCode == 302) {
+      print("Uploaded!");
+      await response.stream.toList();
+    } else {
+      throw Exception('Upload failed with code ${response.statusCode}');
+    }
+  }
+
   Uri _buildUri(
     String path, {
     Map<String, String> query = const <String, String>{},
@@ -90,7 +122,10 @@ class ApiClient {
             Uri(
               queryParameters: query,
             ).query;
-    return Uri.parse('$baseUri$path$queryUri');
+    final baseUri = this.baseUri.endsWith('/')
+        ? this.baseUri.substring(0, this.baseUri.length - 1)
+        : this.baseUri;
+    return Uri.parse('$baseUri/api$path$queryUri');
   }
 
   Future<T> _get<T>(
@@ -100,9 +135,7 @@ class ApiClient {
   }) async {
     final result = await get(
       _buildUri(path, query: query),
-      headers: {
-        'authorization': 'bearer $accessKey',
-      },
+      headers: headers,
     );
     return deserialize(jsonDecode(result.body));
   }
@@ -116,10 +149,7 @@ class ApiClient {
     final result = await post(
       _buildUri(path, query: query),
       body: body != null ? jsonEncode(body) : null,
-      headers: {
-        'authorization': 'bearer $accessKey',
-        if (body != null) 'content-type': 'application/json'
-      },
+      headers: headers,
     );
     return deserialize(jsonDecode(result.body));
   }
@@ -133,11 +163,13 @@ class ApiClient {
     final result = await delete(
       _buildUri(path, query: query),
       body: body != null ? jsonEncode(body) : null,
-      headers: {
-        'authorization': 'bearer $accessKey',
-        if (body != null) 'content-type': 'application/json'
-      },
+      headers: headers,
     );
     return deserialize(jsonDecode(result.body));
   }
+
+  Map<String, String>? get headers => {
+        'authorization': 'bearer $accessKey',
+        'content-type': 'application/json'
+      };
 }

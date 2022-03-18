@@ -1,4 +1,4 @@
-import 'package:micropub/src/model.dart';
+import 'package:micropub/src/shared/model.dart';
 
 abstract class MicropubStorage {
   const MicropubStorage();

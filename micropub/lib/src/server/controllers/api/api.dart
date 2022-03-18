@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:micropub/src/auth/auth.dart';
-import 'package:micropub/src/model.dart';
-import 'package:micropub/src/storage/storage.dart';
+import 'package:micropub/src/server/auth/auth.dart';
+import 'package:micropub/src/shared/model.dart';
+import 'package:micropub/src/server/storage/storage.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:shelf_router/shelf_router.dart';
 

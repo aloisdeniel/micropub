@@ -1,5 +1,5 @@
 import 'package:logging/logging.dart';
-import 'package:micropub/src/model.dart';
+import 'package:micropub/src/shared/model.dart';
 import 'package:shelf/shelf.dart';
 
 abstract class MicropubAuth {

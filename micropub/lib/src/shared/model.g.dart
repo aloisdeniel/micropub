@@ -45,7 +45,7 @@ _$_MicropubPackage _$$_MicropubPackageFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_MicropubPackageToJson(_$_MicropubPackage instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'versions': instance.versions,
+      'versions': instance.versions.map((e) => e.toJson()).toList(),
       'uploaders': instance.uploaders,
       'download': instance.download,
       'createdAt': jsonFromDateTime(instance.createdAt),
@@ -102,7 +102,7 @@ Map<String, dynamic> _$$_MicropubQueryResultToJson(
         _$_MicropubQueryResult instance) =>
     <String, dynamic>{
       'count': instance.count,
-      'packages': instance.packages,
+      'packages': instance.packages.map((e) => e.toJson()).toList(),
     };
 
 _$_MicropubAccessKey _$$_MicropubAccessKeyFromJson(Map<String, dynamic> json) =>

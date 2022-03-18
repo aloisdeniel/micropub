@@ -10,26 +10,39 @@ part 'options.g.dart';
 class MicropubOptions with _$MicropubOptions {
   const MicropubOptions._();
   const factory MicropubOptions({
-    required String directory,
     required String adminKey,
     required String host,
     required int port,
+    @Default('.') String directory,
+    String? sslCert,
+    String? sslKey,
   }) = _MicropubOptions;
 
   factory MicropubOptions.fromEnv() {
-    String key(String key) {
+    String? optionalKey(String key) {
+      return Platform.environment['MICROPUB_$key'];
+    }
+
+    String key(String key, [String? defaultValue]) {
       key = 'MICROPUB_$key';
       if (!Platform.environment.containsKey(key)) {
-        throw Exception('Missing $key environment key');
+        if (defaultValue == null) {
+          throw Exception('Missing $key environment key');
+        }
+        return defaultValue;
       }
       return Platform.environment[key]!;
     }
 
     return MicropubOptions(
-      directory: key('DIRECTORY'),
+      directory: key('DIRECTORY', '.'),
       adminKey: key('ADMIN_KEY'),
       host: key('HOST'),
-      port: int.parse(key('PORT')),
+      port: int.parse(
+        key('PORT'),
+      ),
+      sslCert: optionalKey('SSL_CERT'),
+      sslKey: optionalKey('SSL_KEY'),
     );
   }
 

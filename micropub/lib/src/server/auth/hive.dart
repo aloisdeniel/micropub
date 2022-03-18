@@ -1,5 +1,5 @@
-import 'package:micropub/src/auth/auth.dart';
-import 'package:micropub/src/model.dart';
+import 'package:micropub/src/server/auth/auth.dart';
+import 'package:micropub/src/shared/model.dart';
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 

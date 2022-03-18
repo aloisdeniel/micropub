@@ -36,7 +36,7 @@ class _$AppStateTearOff {
 
   AppStateAuthenticated authenticated(
       {required MicropubMe me,
-      required ApiClient client,
+      required MicropubApiClient client,
       required PackagesState packages,
       required AdminState admin,
       required PackageState package}) {
@@ -61,7 +61,7 @@ mixin _$AppState {
     required TResult Function() notAuthenticated,
     required TResult Function() authenticationFailed,
     required TResult Function() authenticating,
-    required TResult Function(MicropubMe me, ApiClient client,
+    required TResult Function(MicropubMe me, MicropubApiClient client,
             PackagesState packages, AdminState admin, PackageState package)
         authenticated,
   }) =>
@@ -72,8 +72,8 @@ mixin _$AppState {
     TResult Function()? notAuthenticated,
     TResult Function()? authenticationFailed,
     TResult Function()? authenticating,
-    TResult Function(MicropubMe me, ApiClient client, PackagesState packages,
-            AdminState admin, PackageState package)?
+    TResult Function(MicropubMe me, MicropubApiClient client,
+            PackagesState packages, AdminState admin, PackageState package)?
         authenticated,
   }) =>
       throw _privateConstructorUsedError;
@@ -83,8 +83,8 @@ mixin _$AppState {
     TResult Function()? notAuthenticated,
     TResult Function()? authenticationFailed,
     TResult Function()? authenticating,
-    TResult Function(MicropubMe me, ApiClient client, PackagesState packages,
-            AdminState admin, PackageState package)?
+    TResult Function(MicropubMe me, MicropubApiClient client,
+            PackagesState packages, AdminState admin, PackageState package)?
         authenticated,
     required TResult orElse(),
   }) =>
@@ -182,7 +182,7 @@ class _$AppStateInitializing implements AppStateInitializing {
     required TResult Function() notAuthenticated,
     required TResult Function() authenticationFailed,
     required TResult Function() authenticating,
-    required TResult Function(MicropubMe me, ApiClient client,
+    required TResult Function(MicropubMe me, MicropubApiClient client,
             PackagesState packages, AdminState admin, PackageState package)
         authenticated,
   }) {
@@ -196,8 +196,8 @@ class _$AppStateInitializing implements AppStateInitializing {
     TResult Function()? notAuthenticated,
     TResult Function()? authenticationFailed,
     TResult Function()? authenticating,
-    TResult Function(MicropubMe me, ApiClient client, PackagesState packages,
-            AdminState admin, PackageState package)?
+    TResult Function(MicropubMe me, MicropubApiClient client,
+            PackagesState packages, AdminState admin, PackageState package)?
         authenticated,
   }) {
     return initializing?.call();
@@ -210,8 +210,8 @@ class _$AppStateInitializing implements AppStateInitializing {
     TResult Function()? notAuthenticated,
     TResult Function()? authenticationFailed,
     TResult Function()? authenticating,
-    TResult Function(MicropubMe me, ApiClient client, PackagesState packages,
-            AdminState admin, PackageState package)?
+    TResult Function(MicropubMe me, MicropubApiClient client,
+            PackagesState packages, AdminState admin, PackageState package)?
         authenticated,
     required TResult orElse(),
   }) {
@@ -315,7 +315,7 @@ class _$AppStateNotAuthenticated implements AppStateNotAuthenticated {
     required TResult Function() notAuthenticated,
     required TResult Function() authenticationFailed,
     required TResult Function() authenticating,
-    required TResult Function(MicropubMe me, ApiClient client,
+    required TResult Function(MicropubMe me, MicropubApiClient client,
             PackagesState packages, AdminState admin, PackageState package)
         authenticated,
   }) {
@@ -329,8 +329,8 @@ class _$AppStateNotAuthenticated implements AppStateNotAuthenticated {
     TResult Function()? notAuthenticated,
     TResult Function()? authenticationFailed,
     TResult Function()? authenticating,
-    TResult Function(MicropubMe me, ApiClient client, PackagesState packages,
-            AdminState admin, PackageState package)?
+    TResult Function(MicropubMe me, MicropubApiClient client,
+            PackagesState packages, AdminState admin, PackageState package)?
         authenticated,
   }) {
     return notAuthenticated?.call();
@@ -343,8 +343,8 @@ class _$AppStateNotAuthenticated implements AppStateNotAuthenticated {
     TResult Function()? notAuthenticated,
     TResult Function()? authenticationFailed,
     TResult Function()? authenticating,
-    TResult Function(MicropubMe me, ApiClient client, PackagesState packages,
-            AdminState admin, PackageState package)?
+    TResult Function(MicropubMe me, MicropubApiClient client,
+            PackagesState packages, AdminState admin, PackageState package)?
         authenticated,
     required TResult orElse(),
   }) {
@@ -452,7 +452,7 @@ class _$AppStateNotAuthenticationFailed
     required TResult Function() notAuthenticated,
     required TResult Function() authenticationFailed,
     required TResult Function() authenticating,
-    required TResult Function(MicropubMe me, ApiClient client,
+    required TResult Function(MicropubMe me, MicropubApiClient client,
             PackagesState packages, AdminState admin, PackageState package)
         authenticated,
   }) {
@@ -466,8 +466,8 @@ class _$AppStateNotAuthenticationFailed
     TResult Function()? notAuthenticated,
     TResult Function()? authenticationFailed,
     TResult Function()? authenticating,
-    TResult Function(MicropubMe me, ApiClient client, PackagesState packages,
-            AdminState admin, PackageState package)?
+    TResult Function(MicropubMe me, MicropubApiClient client,
+            PackagesState packages, AdminState admin, PackageState package)?
         authenticated,
   }) {
     return authenticationFailed?.call();
@@ -480,8 +480,8 @@ class _$AppStateNotAuthenticationFailed
     TResult Function()? notAuthenticated,
     TResult Function()? authenticationFailed,
     TResult Function()? authenticating,
-    TResult Function(MicropubMe me, ApiClient client, PackagesState packages,
-            AdminState admin, PackageState package)?
+    TResult Function(MicropubMe me, MicropubApiClient client,
+            PackagesState packages, AdminState admin, PackageState package)?
         authenticated,
     required TResult orElse(),
   }) {
@@ -585,7 +585,7 @@ class _$AppStateAuthenticating implements AppStateAuthenticating {
     required TResult Function() notAuthenticated,
     required TResult Function() authenticationFailed,
     required TResult Function() authenticating,
-    required TResult Function(MicropubMe me, ApiClient client,
+    required TResult Function(MicropubMe me, MicropubApiClient client,
             PackagesState packages, AdminState admin, PackageState package)
         authenticated,
   }) {
@@ -599,8 +599,8 @@ class _$AppStateAuthenticating implements AppStateAuthenticating {
     TResult Function()? notAuthenticated,
     TResult Function()? authenticationFailed,
     TResult Function()? authenticating,
-    TResult Function(MicropubMe me, ApiClient client, PackagesState packages,
-            AdminState admin, PackageState package)?
+    TResult Function(MicropubMe me, MicropubApiClient client,
+            PackagesState packages, AdminState admin, PackageState package)?
         authenticated,
   }) {
     return authenticating?.call();
@@ -613,8 +613,8 @@ class _$AppStateAuthenticating implements AppStateAuthenticating {
     TResult Function()? notAuthenticated,
     TResult Function()? authenticationFailed,
     TResult Function()? authenticating,
-    TResult Function(MicropubMe me, ApiClient client, PackagesState packages,
-            AdminState admin, PackageState package)?
+    TResult Function(MicropubMe me, MicropubApiClient client,
+            PackagesState packages, AdminState admin, PackageState package)?
         authenticated,
     required TResult orElse(),
   }) {
@@ -679,7 +679,7 @@ abstract class $AppStateAuthenticatedCopyWith<$Res> {
       _$AppStateAuthenticatedCopyWithImpl<$Res>;
   $Res call(
       {MicropubMe me,
-      ApiClient client,
+      MicropubApiClient client,
       PackagesState packages,
       AdminState admin,
       PackageState package});
@@ -717,7 +717,7 @@ class _$AppStateAuthenticatedCopyWithImpl<$Res>
       client: client == freezed
           ? _value.client
           : client // ignore: cast_nullable_to_non_nullable
-              as ApiClient,
+              as MicropubApiClient,
       packages: packages == freezed
           ? _value.packages
           : packages // ignore: cast_nullable_to_non_nullable
@@ -775,7 +775,7 @@ class _$AppStateAuthenticated implements AppStateAuthenticated {
   @override
   final MicropubMe me;
   @override
-  final ApiClient client;
+  final MicropubApiClient client;
   @override
   final PackagesState packages;
   @override
@@ -822,7 +822,7 @@ class _$AppStateAuthenticated implements AppStateAuthenticated {
     required TResult Function() notAuthenticated,
     required TResult Function() authenticationFailed,
     required TResult Function() authenticating,
-    required TResult Function(MicropubMe me, ApiClient client,
+    required TResult Function(MicropubMe me, MicropubApiClient client,
             PackagesState packages, AdminState admin, PackageState package)
         authenticated,
   }) {
@@ -836,8 +836,8 @@ class _$AppStateAuthenticated implements AppStateAuthenticated {
     TResult Function()? notAuthenticated,
     TResult Function()? authenticationFailed,
     TResult Function()? authenticating,
-    TResult Function(MicropubMe me, ApiClient client, PackagesState packages,
-            AdminState admin, PackageState package)?
+    TResult Function(MicropubMe me, MicropubApiClient client,
+            PackagesState packages, AdminState admin, PackageState package)?
         authenticated,
   }) {
     return authenticated?.call(me, client, packages, admin, package);
@@ -850,8 +850,8 @@ class _$AppStateAuthenticated implements AppStateAuthenticated {
     TResult Function()? notAuthenticated,
     TResult Function()? authenticationFailed,
     TResult Function()? authenticating,
-    TResult Function(MicropubMe me, ApiClient client, PackagesState packages,
-            AdminState admin, PackageState package)?
+    TResult Function(MicropubMe me, MicropubApiClient client,
+            PackagesState packages, AdminState admin, PackageState package)?
         authenticated,
     required TResult orElse(),
   }) {
@@ -908,13 +908,13 @@ class _$AppStateAuthenticated implements AppStateAuthenticated {
 abstract class AppStateAuthenticated implements AppState {
   const factory AppStateAuthenticated(
       {required MicropubMe me,
-      required ApiClient client,
+      required MicropubApiClient client,
       required PackagesState packages,
       required AdminState admin,
       required PackageState package}) = _$AppStateAuthenticated;
 
   MicropubMe get me;
-  ApiClient get client;
+  MicropubApiClient get client;
   PackagesState get packages;
   AdminState get admin;
   PackageState get package;

@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:website/services/api.dart';
-import 'package:website/services/model.dart';
+import 'package:micropub/client.dart';
 
 part 'state.freezed.dart';
 
@@ -13,7 +12,7 @@ class AppState with _$AppState {
   const factory AppState.authenticating() = AppStateAuthenticating;
   const factory AppState.authenticated({
     required MicropubMe me,
-    required ApiClient client,
+    required MicropubApiClient client,
     required PackagesState packages,
     required AdminState admin,
     required PackageState package,

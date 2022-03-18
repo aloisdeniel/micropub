@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:micropub/src/auth/auth.dart';
-import 'package:micropub/src/controllers/api/api.dart';
-import 'package:micropub/src/model.dart';
-import 'package:micropub/src/storage/storage.dart';
-import 'package:micropub/src/utils/yaml.dart';
+import 'package:logging/logging.dart';
+import 'package:micropub/src/server/auth/auth.dart';
+import 'package:micropub/src/server/controllers/api/api.dart';
+import 'package:micropub/src/server/storage/storage.dart';
+import 'package:micropub/src/server/utils/yaml.dart';
+import 'package:micropub/src/shared/model.dart';
 import 'package:shelf/shelf.dart' as shelf;
 import 'package:mime/mime.dart';
 import 'package:collection/collection.dart';
@@ -18,8 +19,11 @@ class PackagesApiController {
   const PackagesApiController({
     required this.auth,
     required this.storage,
-  });
+    Logger? logger,
+  }) : _logger = logger;
 
+  final Logger? _logger;
+  Logger get logger => _logger ?? Logger.root;
   final MicropubAuth auth;
   final MicropubStorage storage;
 
@@ -151,6 +155,7 @@ class PackagesApiController {
         var boundary = mediaType.parameters['boundary'];
         if (boundary == null) throw 'invalid boundary';
 
+        logger.info('New package upload...');
         var transformer = MimeMultipartTransformer(boundary);
         MimeMultipart? fileData;
 
@@ -162,6 +167,7 @@ class PackagesApiController {
           fileData = part;
         }
 
+        logger.info('Reading multipart data...');
         var bb = await fileData!.fold(BytesBuilder(),
             (BytesBuilder byteBuilder, d) => byteBuilder..add(d));
         var tarballBytes = bb.takeBytes();
@@ -196,6 +202,7 @@ class PackagesApiController {
         var name = pubspec['name'] as String;
         var version = pubspec['version'] as String;
 
+        logger.info('New version $version for package $name');
         var package = await storage.queryPackage(name);
 
         // Package already exists
@@ -214,6 +221,7 @@ class PackagesApiController {
         }
 
         // Upload package tarball to storage
+        logger.info('Saving $name:$version package binary...');
         await storage.upload(name, version, tarballBytes);
 
         String? readme;
@@ -235,12 +243,14 @@ class PackagesApiController {
           changelog: changelog,
           createdAt: DateTime.now(),
         );
+        logger.info('Saving $name:$version metadata...');
         await storage.addVersion(name, unpubVersion);
 
         return shelf.Response.found(req.requestedUri
             .resolve('/api/packages/versions/newUploadFinish')
             .toString());
       } catch (err) {
+        logger.warning('Package upload failed : $err');
         return shelf.Response.found(req.requestedUri
             .resolve('/api/packages/versions/newUploadFinish?error=$err'));
       }

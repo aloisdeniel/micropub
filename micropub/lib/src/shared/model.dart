@@ -30,6 +30,7 @@ class MicropubVersion with _$MicropubVersion {
 
 @Freezed()
 class MicropubPackage with _$MicropubPackage {
+  @JsonSerializable(explicitToJson: true)
   const factory MicropubPackage({
     required String name,
     required List<MicropubVersion> versions,
@@ -56,6 +57,7 @@ class MicropubPackageDetails with _$MicropubPackageDetails {
 
 @Freezed()
 class MicropubMe with _$MicropubMe {
+  @JsonSerializable(explicitToJson: true)
   const factory MicropubMe({
     required String email,
     required List<MicropubAuthorization> authorizations,
@@ -67,6 +69,7 @@ class MicropubMe with _$MicropubMe {
 
 @Freezed()
 class MicropubQueryResult with _$MicropubQueryResult {
+  @JsonSerializable(explicitToJson: true)
   const factory MicropubQueryResult({
     required int count,
     required List<MicropubPackage> packages,
@@ -78,6 +81,7 @@ class MicropubQueryResult with _$MicropubQueryResult {
 
 @Freezed()
 class MicropubAccessKey with _$MicropubAccessKey {
+  @JsonSerializable(explicitToJson: true)
   const factory MicropubAccessKey({
     required String id,
     required String key,

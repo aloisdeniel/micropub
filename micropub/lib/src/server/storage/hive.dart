@@ -6,9 +6,9 @@ import 'package:archive/archive_io.dart';
 import 'package:hive/hive.dart';
 import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart' as semver;
-import 'package:micropub/src/model.dart';
+import 'package:micropub/src/shared/model.dart';
 import 'package:collection/collection.dart';
-import 'package:micropub/src/storage/storage.dart';
+import 'package:micropub/src/server/storage/storage.dart';
 
 class MicropubHiveStorage extends MicropubStorage {
   MicropubHiveStorage({
@@ -204,11 +204,15 @@ class MicropubHiveStorage extends MicropubStorage {
   }
 
   Future<File> _getPackageArchive(String name, String version) async {
+    final directory = Directory(path.join(
+      this.directory.path,
+      'packages',
+    ));
     if (!directory.existsSync()) {
       await directory.create(recursive: true);
     }
 
-    return File(path.join('packages', '$name-$version'));
+    return File(path.join(directory.path, '$name-$version'));
   }
 
   bool _hasPackage(String name) {

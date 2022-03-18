@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:website/services/model.dart';
+import 'package:micropub/client.dart';
 import 'package:website/theme/theme.dart';
 import 'package:timeago/timeago.dart' as timeago;
 

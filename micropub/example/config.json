@@ -2,5 +2,9 @@
     "directory": ".",
     "adminKey": "adm1n",
     "host": "localhost",
-    "port": 8080
+    "port": 8080,
+    "ignored": {
+        "sslCert": "ssl.cert",
+        "sslKey": "ssl.key"
+    }
 }

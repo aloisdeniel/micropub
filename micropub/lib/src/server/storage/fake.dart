@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:micropub/src/model.dart';
+import 'package:micropub/src/shared/model.dart';
 
 import 'hive.dart';
 import 'storage.dart';

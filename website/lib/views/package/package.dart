@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
-import 'package:website/services/model.dart';
+import 'package:micropub/client.dart';
 import 'package:website/state/notifier.dart';
 import 'package:website/theme/theme.dart';
 import 'package:website/views/package/widgets/content_entry.dart';

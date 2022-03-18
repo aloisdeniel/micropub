@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:hive/hive.dart';
 import 'package:logging/logging.dart';
-import 'package:micropub/src/controllers/api/download.dart';
-import 'package:micropub/src/utils/middleware_log.dart';
+import 'package:micropub/src/server/controllers/api/download.dart';
+import 'package:micropub/src/server/utils/middleware_log.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
@@ -81,10 +81,21 @@ class MicropubServer {
       ),
     ).addHandler(router);
 
+    if (options.sslCert != null && options.sslKey == null) {
+      throw Exception('An SSL certificate file has been provided without key.');
+    }
+
+    final securityContext = options.sslCert != null
+        ? (SecurityContext()
+          ..useCertificateChain(options.sslCert!)
+          ..usePrivateKey(options.sslKey!))
+        : null;
+
     return await serve(
       handler,
       options.host,
       options.port,
+      securityContext: securityContext,
     );
   }
 }
