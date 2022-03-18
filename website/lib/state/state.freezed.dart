@@ -18,30 +18,62 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$AppStateTearOff {
   const _$AppStateTearOff();
 
-  AppStateInitializing initializing() {
-    return const AppStateInitializing();
+  AppStateInitializing initializing({required MicropubApiClient client}) {
+    return AppStateInitializing(
+      client: client,
+    );
   }
 
-  AppStateNotAuthenticated notAuthenticated() {
-    return const AppStateNotAuthenticated();
+  AppStateInitializationFailed initializationFailed(
+      {required MicropubApiClient client, required dynamic error}) {
+    return AppStateInitializationFailed(
+      client: client,
+      error: error,
+    );
   }
 
-  AppStateNotAuthenticationFailed authenticationFailed() {
-    return const AppStateNotAuthenticationFailed();
+  AppStateInitialized initialized(
+      {required MicropubServerInfo info, required MicropubApiClient client}) {
+    return AppStateInitialized(
+      info: info,
+      client: client,
+    );
   }
 
-  AppStateAuthenticating authenticating() {
-    return const AppStateAuthenticating();
+  AppStateNotAuthenticated notAuthenticated(
+      {required MicropubServerInfo info, required MicropubApiClient client}) {
+    return AppStateNotAuthenticated(
+      info: info,
+      client: client,
+    );
+  }
+
+  AppStateNotAuthenticationFailed authenticationFailed(
+      {required MicropubServerInfo info, required MicropubApiClient client}) {
+    return AppStateNotAuthenticationFailed(
+      info: info,
+      client: client,
+    );
+  }
+
+  AppStateAuthenticating authenticating(
+      {required MicropubServerInfo info, required MicropubApiClient client}) {
+    return AppStateAuthenticating(
+      info: info,
+      client: client,
+    );
   }
 
   AppStateAuthenticated authenticated(
       {required MicropubMe me,
-      required MicropubApiClient client,
+      required MicropubServerInfo info,
+      required MicropubApiAuthenticatedClient client,
       required PackagesState packages,
       required AdminState admin,
       required PackageState package}) {
     return AppStateAuthenticated(
       me: me,
+      info: info,
       client: client,
       packages: packages,
       admin: admin,
@@ -57,34 +89,70 @@ const $AppState = _$AppStateTearOff();
 mixin _$AppState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initializing,
-    required TResult Function() notAuthenticated,
-    required TResult Function() authenticationFailed,
-    required TResult Function() authenticating,
-    required TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)
+    required TResult Function(MicropubApiClient client) initializing,
+    required TResult Function(MicropubApiClient client, dynamic error)
+        initializationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        initialized,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        notAuthenticated,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticating,
+    required TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)
         authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initializing,
-    TResult Function()? notAuthenticated,
-    TResult Function()? authenticationFailed,
-    TResult Function()? authenticating,
-    TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)?
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
         authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initializing,
-    TResult Function()? notAuthenticated,
-    TResult Function()? authenticationFailed,
-    TResult Function()? authenticating,
-    TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)?
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
         authenticated,
     required TResult orElse(),
   }) =>
@@ -92,6 +160,9 @@ mixin _$AppState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(AppStateInitializing value) initializing,
+    required TResult Function(AppStateInitializationFailed value)
+        initializationFailed,
+    required TResult Function(AppStateInitialized value) initialized,
     required TResult Function(AppStateNotAuthenticated value) notAuthenticated,
     required TResult Function(AppStateNotAuthenticationFailed value)
         authenticationFailed,
@@ -102,6 +173,8 @@ mixin _$AppState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
     TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
     TResult Function(AppStateNotAuthenticationFailed value)?
         authenticationFailed,
@@ -112,6 +185,8 @@ mixin _$AppState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
     TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
     TResult Function(AppStateNotAuthenticationFailed value)?
         authenticationFailed,
@@ -142,6 +217,7 @@ abstract class $AppStateInitializingCopyWith<$Res> {
   factory $AppStateInitializingCopyWith(AppStateInitializing value,
           $Res Function(AppStateInitializing) then) =
       _$AppStateInitializingCopyWithImpl<$Res>;
+  $Res call({MicropubApiClient client});
 }
 
 /// @nodoc
@@ -154,69 +230,129 @@ class _$AppStateInitializingCopyWithImpl<$Res>
 
   @override
   AppStateInitializing get _value => super._value as AppStateInitializing;
+
+  @override
+  $Res call({
+    Object? client = freezed,
+  }) {
+    return _then(AppStateInitializing(
+      client: client == freezed
+          ? _value.client
+          : client // ignore: cast_nullable_to_non_nullable
+              as MicropubApiClient,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$AppStateInitializing implements AppStateInitializing {
-  const _$AppStateInitializing();
+  const _$AppStateInitializing({required this.client});
+
+  @override
+  final MicropubApiClient client;
 
   @override
   String toString() {
-    return 'AppState.initializing()';
+    return 'AppState.initializing(client: $client)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is AppStateInitializing);
+        (other.runtimeType == runtimeType &&
+            other is AppStateInitializing &&
+            const DeepCollectionEquality().equals(other.client, client));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(client));
+
+  @JsonKey(ignore: true)
+  @override
+  $AppStateInitializingCopyWith<AppStateInitializing> get copyWith =>
+      _$AppStateInitializingCopyWithImpl<AppStateInitializing>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initializing,
-    required TResult Function() notAuthenticated,
-    required TResult Function() authenticationFailed,
-    required TResult Function() authenticating,
-    required TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)
+    required TResult Function(MicropubApiClient client) initializing,
+    required TResult Function(MicropubApiClient client, dynamic error)
+        initializationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        initialized,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        notAuthenticated,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticating,
+    required TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)
         authenticated,
   }) {
-    return initializing();
+    return initializing(client);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initializing,
-    TResult Function()? notAuthenticated,
-    TResult Function()? authenticationFailed,
-    TResult Function()? authenticating,
-    TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)?
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
         authenticated,
   }) {
-    return initializing?.call();
+    return initializing?.call(client);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initializing,
-    TResult Function()? notAuthenticated,
-    TResult Function()? authenticationFailed,
-    TResult Function()? authenticating,
-    TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)?
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
         authenticated,
     required TResult orElse(),
   }) {
     if (initializing != null) {
-      return initializing();
+      return initializing(client);
     }
     return orElse();
   }
@@ -225,6 +361,9 @@ class _$AppStateInitializing implements AppStateInitializing {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(AppStateInitializing value) initializing,
+    required TResult Function(AppStateInitializationFailed value)
+        initializationFailed,
+    required TResult Function(AppStateInitialized value) initialized,
     required TResult Function(AppStateNotAuthenticated value) notAuthenticated,
     required TResult Function(AppStateNotAuthenticationFailed value)
         authenticationFailed,
@@ -238,6 +377,8 @@ class _$AppStateInitializing implements AppStateInitializing {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
     TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
     TResult Function(AppStateNotAuthenticationFailed value)?
         authenticationFailed,
@@ -251,6 +392,8 @@ class _$AppStateInitializing implements AppStateInitializing {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
     TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
     TResult Function(AppStateNotAuthenticationFailed value)?
         authenticationFailed,
@@ -266,7 +409,461 @@ class _$AppStateInitializing implements AppStateInitializing {
 }
 
 abstract class AppStateInitializing implements AppState {
-  const factory AppStateInitializing() = _$AppStateInitializing;
+  const factory AppStateInitializing({required MicropubApiClient client}) =
+      _$AppStateInitializing;
+
+  MicropubApiClient get client;
+  @JsonKey(ignore: true)
+  $AppStateInitializingCopyWith<AppStateInitializing> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AppStateInitializationFailedCopyWith<$Res> {
+  factory $AppStateInitializationFailedCopyWith(
+          AppStateInitializationFailed value,
+          $Res Function(AppStateInitializationFailed) then) =
+      _$AppStateInitializationFailedCopyWithImpl<$Res>;
+  $Res call({MicropubApiClient client, dynamic error});
+}
+
+/// @nodoc
+class _$AppStateInitializationFailedCopyWithImpl<$Res>
+    extends _$AppStateCopyWithImpl<$Res>
+    implements $AppStateInitializationFailedCopyWith<$Res> {
+  _$AppStateInitializationFailedCopyWithImpl(
+      AppStateInitializationFailed _value,
+      $Res Function(AppStateInitializationFailed) _then)
+      : super(_value, (v) => _then(v as AppStateInitializationFailed));
+
+  @override
+  AppStateInitializationFailed get _value =>
+      super._value as AppStateInitializationFailed;
+
+  @override
+  $Res call({
+    Object? client = freezed,
+    Object? error = freezed,
+  }) {
+    return _then(AppStateInitializationFailed(
+      client: client == freezed
+          ? _value.client
+          : client // ignore: cast_nullable_to_non_nullable
+              as MicropubApiClient,
+      error: error == freezed
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$AppStateInitializationFailed implements AppStateInitializationFailed {
+  const _$AppStateInitializationFailed(
+      {required this.client, required this.error});
+
+  @override
+  final MicropubApiClient client;
+  @override
+  final dynamic error;
+
+  @override
+  String toString() {
+    return 'AppState.initializationFailed(client: $client, error: $error)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AppStateInitializationFailed &&
+            const DeepCollectionEquality().equals(other.client, client) &&
+            const DeepCollectionEquality().equals(other.error, error));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(client),
+      const DeepCollectionEquality().hash(error));
+
+  @JsonKey(ignore: true)
+  @override
+  $AppStateInitializationFailedCopyWith<AppStateInitializationFailed>
+      get copyWith => _$AppStateInitializationFailedCopyWithImpl<
+          AppStateInitializationFailed>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(MicropubApiClient client) initializing,
+    required TResult Function(MicropubApiClient client, dynamic error)
+        initializationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        initialized,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        notAuthenticated,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticating,
+    required TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)
+        authenticated,
+  }) {
+    return initializationFailed(client, error);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
+        authenticated,
+  }) {
+    return initializationFailed?.call(client, error);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
+        authenticated,
+    required TResult orElse(),
+  }) {
+    if (initializationFailed != null) {
+      return initializationFailed(client, error);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AppStateInitializing value) initializing,
+    required TResult Function(AppStateInitializationFailed value)
+        initializationFailed,
+    required TResult Function(AppStateInitialized value) initialized,
+    required TResult Function(AppStateNotAuthenticated value) notAuthenticated,
+    required TResult Function(AppStateNotAuthenticationFailed value)
+        authenticationFailed,
+    required TResult Function(AppStateAuthenticating value) authenticating,
+    required TResult Function(AppStateAuthenticated value) authenticated,
+  }) {
+    return initializationFailed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
+    TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
+    TResult Function(AppStateNotAuthenticationFailed value)?
+        authenticationFailed,
+    TResult Function(AppStateAuthenticating value)? authenticating,
+    TResult Function(AppStateAuthenticated value)? authenticated,
+  }) {
+    return initializationFailed?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
+    TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
+    TResult Function(AppStateNotAuthenticationFailed value)?
+        authenticationFailed,
+    TResult Function(AppStateAuthenticating value)? authenticating,
+    TResult Function(AppStateAuthenticated value)? authenticated,
+    required TResult orElse(),
+  }) {
+    if (initializationFailed != null) {
+      return initializationFailed(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class AppStateInitializationFailed implements AppState {
+  const factory AppStateInitializationFailed(
+      {required MicropubApiClient client,
+      required dynamic error}) = _$AppStateInitializationFailed;
+
+  MicropubApiClient get client;
+  dynamic get error;
+  @JsonKey(ignore: true)
+  $AppStateInitializationFailedCopyWith<AppStateInitializationFailed>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AppStateInitializedCopyWith<$Res> {
+  factory $AppStateInitializedCopyWith(
+          AppStateInitialized value, $Res Function(AppStateInitialized) then) =
+      _$AppStateInitializedCopyWithImpl<$Res>;
+  $Res call({MicropubServerInfo info, MicropubApiClient client});
+
+  $MicropubServerInfoCopyWith<$Res> get info;
+}
+
+/// @nodoc
+class _$AppStateInitializedCopyWithImpl<$Res>
+    extends _$AppStateCopyWithImpl<$Res>
+    implements $AppStateInitializedCopyWith<$Res> {
+  _$AppStateInitializedCopyWithImpl(
+      AppStateInitialized _value, $Res Function(AppStateInitialized) _then)
+      : super(_value, (v) => _then(v as AppStateInitialized));
+
+  @override
+  AppStateInitialized get _value => super._value as AppStateInitialized;
+
+  @override
+  $Res call({
+    Object? info = freezed,
+    Object? client = freezed,
+  }) {
+    return _then(AppStateInitialized(
+      info: info == freezed
+          ? _value.info
+          : info // ignore: cast_nullable_to_non_nullable
+              as MicropubServerInfo,
+      client: client == freezed
+          ? _value.client
+          : client // ignore: cast_nullable_to_non_nullable
+              as MicropubApiClient,
+    ));
+  }
+
+  @override
+  $MicropubServerInfoCopyWith<$Res> get info {
+    return $MicropubServerInfoCopyWith<$Res>(_value.info, (value) {
+      return _then(_value.copyWith(info: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$AppStateInitialized implements AppStateInitialized {
+  const _$AppStateInitialized({required this.info, required this.client});
+
+  @override
+  final MicropubServerInfo info;
+  @override
+  final MicropubApiClient client;
+
+  @override
+  String toString() {
+    return 'AppState.initialized(info: $info, client: $client)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AppStateInitialized &&
+            const DeepCollectionEquality().equals(other.info, info) &&
+            const DeepCollectionEquality().equals(other.client, client));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(info),
+      const DeepCollectionEquality().hash(client));
+
+  @JsonKey(ignore: true)
+  @override
+  $AppStateInitializedCopyWith<AppStateInitialized> get copyWith =>
+      _$AppStateInitializedCopyWithImpl<AppStateInitialized>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(MicropubApiClient client) initializing,
+    required TResult Function(MicropubApiClient client, dynamic error)
+        initializationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        initialized,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        notAuthenticated,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticating,
+    required TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)
+        authenticated,
+  }) {
+    return initialized(info, client);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
+        authenticated,
+  }) {
+    return initialized?.call(info, client);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
+        authenticated,
+    required TResult orElse(),
+  }) {
+    if (initialized != null) {
+      return initialized(info, client);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(AppStateInitializing value) initializing,
+    required TResult Function(AppStateInitializationFailed value)
+        initializationFailed,
+    required TResult Function(AppStateInitialized value) initialized,
+    required TResult Function(AppStateNotAuthenticated value) notAuthenticated,
+    required TResult Function(AppStateNotAuthenticationFailed value)
+        authenticationFailed,
+    required TResult Function(AppStateAuthenticating value) authenticating,
+    required TResult Function(AppStateAuthenticated value) authenticated,
+  }) {
+    return initialized(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
+    TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
+    TResult Function(AppStateNotAuthenticationFailed value)?
+        authenticationFailed,
+    TResult Function(AppStateAuthenticating value)? authenticating,
+    TResult Function(AppStateAuthenticated value)? authenticated,
+  }) {
+    return initialized?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
+    TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
+    TResult Function(AppStateNotAuthenticationFailed value)?
+        authenticationFailed,
+    TResult Function(AppStateAuthenticating value)? authenticating,
+    TResult Function(AppStateAuthenticated value)? authenticated,
+    required TResult orElse(),
+  }) {
+    if (initialized != null) {
+      return initialized(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class AppStateInitialized implements AppState {
+  const factory AppStateInitialized(
+      {required MicropubServerInfo info,
+      required MicropubApiClient client}) = _$AppStateInitialized;
+
+  MicropubServerInfo get info;
+  MicropubApiClient get client;
+  @JsonKey(ignore: true)
+  $AppStateInitializedCopyWith<AppStateInitialized> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -274,6 +871,9 @@ abstract class $AppStateNotAuthenticatedCopyWith<$Res> {
   factory $AppStateNotAuthenticatedCopyWith(AppStateNotAuthenticated value,
           $Res Function(AppStateNotAuthenticated) then) =
       _$AppStateNotAuthenticatedCopyWithImpl<$Res>;
+  $Res call({MicropubServerInfo info, MicropubApiClient client});
+
+  $MicropubServerInfoCopyWith<$Res> get info;
 }
 
 /// @nodoc
@@ -287,69 +887,146 @@ class _$AppStateNotAuthenticatedCopyWithImpl<$Res>
   @override
   AppStateNotAuthenticated get _value =>
       super._value as AppStateNotAuthenticated;
+
+  @override
+  $Res call({
+    Object? info = freezed,
+    Object? client = freezed,
+  }) {
+    return _then(AppStateNotAuthenticated(
+      info: info == freezed
+          ? _value.info
+          : info // ignore: cast_nullable_to_non_nullable
+              as MicropubServerInfo,
+      client: client == freezed
+          ? _value.client
+          : client // ignore: cast_nullable_to_non_nullable
+              as MicropubApiClient,
+    ));
+  }
+
+  @override
+  $MicropubServerInfoCopyWith<$Res> get info {
+    return $MicropubServerInfoCopyWith<$Res>(_value.info, (value) {
+      return _then(_value.copyWith(info: value));
+    });
+  }
 }
 
 /// @nodoc
 
 class _$AppStateNotAuthenticated implements AppStateNotAuthenticated {
-  const _$AppStateNotAuthenticated();
+  const _$AppStateNotAuthenticated({required this.info, required this.client});
+
+  @override
+  final MicropubServerInfo info;
+  @override
+  final MicropubApiClient client;
 
   @override
   String toString() {
-    return 'AppState.notAuthenticated()';
+    return 'AppState.notAuthenticated(info: $info, client: $client)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is AppStateNotAuthenticated);
+        (other.runtimeType == runtimeType &&
+            other is AppStateNotAuthenticated &&
+            const DeepCollectionEquality().equals(other.info, info) &&
+            const DeepCollectionEquality().equals(other.client, client));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(info),
+      const DeepCollectionEquality().hash(client));
+
+  @JsonKey(ignore: true)
+  @override
+  $AppStateNotAuthenticatedCopyWith<AppStateNotAuthenticated> get copyWith =>
+      _$AppStateNotAuthenticatedCopyWithImpl<AppStateNotAuthenticated>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initializing,
-    required TResult Function() notAuthenticated,
-    required TResult Function() authenticationFailed,
-    required TResult Function() authenticating,
-    required TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)
+    required TResult Function(MicropubApiClient client) initializing,
+    required TResult Function(MicropubApiClient client, dynamic error)
+        initializationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        initialized,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        notAuthenticated,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticating,
+    required TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)
         authenticated,
   }) {
-    return notAuthenticated();
+    return notAuthenticated(info, client);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initializing,
-    TResult Function()? notAuthenticated,
-    TResult Function()? authenticationFailed,
-    TResult Function()? authenticating,
-    TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)?
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
         authenticated,
   }) {
-    return notAuthenticated?.call();
+    return notAuthenticated?.call(info, client);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initializing,
-    TResult Function()? notAuthenticated,
-    TResult Function()? authenticationFailed,
-    TResult Function()? authenticating,
-    TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)?
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
         authenticated,
     required TResult orElse(),
   }) {
     if (notAuthenticated != null) {
-      return notAuthenticated();
+      return notAuthenticated(info, client);
     }
     return orElse();
   }
@@ -358,6 +1035,9 @@ class _$AppStateNotAuthenticated implements AppStateNotAuthenticated {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(AppStateInitializing value) initializing,
+    required TResult Function(AppStateInitializationFailed value)
+        initializationFailed,
+    required TResult Function(AppStateInitialized value) initialized,
     required TResult Function(AppStateNotAuthenticated value) notAuthenticated,
     required TResult Function(AppStateNotAuthenticationFailed value)
         authenticationFailed,
@@ -371,6 +1051,8 @@ class _$AppStateNotAuthenticated implements AppStateNotAuthenticated {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
     TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
     TResult Function(AppStateNotAuthenticationFailed value)?
         authenticationFailed,
@@ -384,6 +1066,8 @@ class _$AppStateNotAuthenticated implements AppStateNotAuthenticated {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
     TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
     TResult Function(AppStateNotAuthenticationFailed value)?
         authenticationFailed,
@@ -399,7 +1083,15 @@ class _$AppStateNotAuthenticated implements AppStateNotAuthenticated {
 }
 
 abstract class AppStateNotAuthenticated implements AppState {
-  const factory AppStateNotAuthenticated() = _$AppStateNotAuthenticated;
+  const factory AppStateNotAuthenticated(
+      {required MicropubServerInfo info,
+      required MicropubApiClient client}) = _$AppStateNotAuthenticated;
+
+  MicropubServerInfo get info;
+  MicropubApiClient get client;
+  @JsonKey(ignore: true)
+  $AppStateNotAuthenticatedCopyWith<AppStateNotAuthenticated> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -408,6 +1100,9 @@ abstract class $AppStateNotAuthenticationFailedCopyWith<$Res> {
           AppStateNotAuthenticationFailed value,
           $Res Function(AppStateNotAuthenticationFailed) then) =
       _$AppStateNotAuthenticationFailedCopyWithImpl<$Res>;
+  $Res call({MicropubServerInfo info, MicropubApiClient client});
+
+  $MicropubServerInfoCopyWith<$Res> get info;
 }
 
 /// @nodoc
@@ -422,71 +1117,148 @@ class _$AppStateNotAuthenticationFailedCopyWithImpl<$Res>
   @override
   AppStateNotAuthenticationFailed get _value =>
       super._value as AppStateNotAuthenticationFailed;
+
+  @override
+  $Res call({
+    Object? info = freezed,
+    Object? client = freezed,
+  }) {
+    return _then(AppStateNotAuthenticationFailed(
+      info: info == freezed
+          ? _value.info
+          : info // ignore: cast_nullable_to_non_nullable
+              as MicropubServerInfo,
+      client: client == freezed
+          ? _value.client
+          : client // ignore: cast_nullable_to_non_nullable
+              as MicropubApiClient,
+    ));
+  }
+
+  @override
+  $MicropubServerInfoCopyWith<$Res> get info {
+    return $MicropubServerInfoCopyWith<$Res>(_value.info, (value) {
+      return _then(_value.copyWith(info: value));
+    });
+  }
 }
 
 /// @nodoc
 
 class _$AppStateNotAuthenticationFailed
     implements AppStateNotAuthenticationFailed {
-  const _$AppStateNotAuthenticationFailed();
+  const _$AppStateNotAuthenticationFailed(
+      {required this.info, required this.client});
+
+  @override
+  final MicropubServerInfo info;
+  @override
+  final MicropubApiClient client;
 
   @override
   String toString() {
-    return 'AppState.authenticationFailed()';
+    return 'AppState.authenticationFailed(info: $info, client: $client)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is AppStateNotAuthenticationFailed);
+            other is AppStateNotAuthenticationFailed &&
+            const DeepCollectionEquality().equals(other.info, info) &&
+            const DeepCollectionEquality().equals(other.client, client));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(info),
+      const DeepCollectionEquality().hash(client));
+
+  @JsonKey(ignore: true)
+  @override
+  $AppStateNotAuthenticationFailedCopyWith<AppStateNotAuthenticationFailed>
+      get copyWith => _$AppStateNotAuthenticationFailedCopyWithImpl<
+          AppStateNotAuthenticationFailed>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initializing,
-    required TResult Function() notAuthenticated,
-    required TResult Function() authenticationFailed,
-    required TResult Function() authenticating,
-    required TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)
+    required TResult Function(MicropubApiClient client) initializing,
+    required TResult Function(MicropubApiClient client, dynamic error)
+        initializationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        initialized,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        notAuthenticated,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticating,
+    required TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)
         authenticated,
   }) {
-    return authenticationFailed();
+    return authenticationFailed(info, client);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initializing,
-    TResult Function()? notAuthenticated,
-    TResult Function()? authenticationFailed,
-    TResult Function()? authenticating,
-    TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)?
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
         authenticated,
   }) {
-    return authenticationFailed?.call();
+    return authenticationFailed?.call(info, client);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initializing,
-    TResult Function()? notAuthenticated,
-    TResult Function()? authenticationFailed,
-    TResult Function()? authenticating,
-    TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)?
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
         authenticated,
     required TResult orElse(),
   }) {
     if (authenticationFailed != null) {
-      return authenticationFailed();
+      return authenticationFailed(info, client);
     }
     return orElse();
   }
@@ -495,6 +1267,9 @@ class _$AppStateNotAuthenticationFailed
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(AppStateInitializing value) initializing,
+    required TResult Function(AppStateInitializationFailed value)
+        initializationFailed,
+    required TResult Function(AppStateInitialized value) initialized,
     required TResult Function(AppStateNotAuthenticated value) notAuthenticated,
     required TResult Function(AppStateNotAuthenticationFailed value)
         authenticationFailed,
@@ -508,6 +1283,8 @@ class _$AppStateNotAuthenticationFailed
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
     TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
     TResult Function(AppStateNotAuthenticationFailed value)?
         authenticationFailed,
@@ -521,6 +1298,8 @@ class _$AppStateNotAuthenticationFailed
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
     TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
     TResult Function(AppStateNotAuthenticationFailed value)?
         authenticationFailed,
@@ -536,8 +1315,15 @@ class _$AppStateNotAuthenticationFailed
 }
 
 abstract class AppStateNotAuthenticationFailed implements AppState {
-  const factory AppStateNotAuthenticationFailed() =
-      _$AppStateNotAuthenticationFailed;
+  const factory AppStateNotAuthenticationFailed(
+      {required MicropubServerInfo info,
+      required MicropubApiClient client}) = _$AppStateNotAuthenticationFailed;
+
+  MicropubServerInfo get info;
+  MicropubApiClient get client;
+  @JsonKey(ignore: true)
+  $AppStateNotAuthenticationFailedCopyWith<AppStateNotAuthenticationFailed>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -545,6 +1331,9 @@ abstract class $AppStateAuthenticatingCopyWith<$Res> {
   factory $AppStateAuthenticatingCopyWith(AppStateAuthenticating value,
           $Res Function(AppStateAuthenticating) then) =
       _$AppStateAuthenticatingCopyWithImpl<$Res>;
+  $Res call({MicropubServerInfo info, MicropubApiClient client});
+
+  $MicropubServerInfoCopyWith<$Res> get info;
 }
 
 /// @nodoc
@@ -557,69 +1346,146 @@ class _$AppStateAuthenticatingCopyWithImpl<$Res>
 
   @override
   AppStateAuthenticating get _value => super._value as AppStateAuthenticating;
+
+  @override
+  $Res call({
+    Object? info = freezed,
+    Object? client = freezed,
+  }) {
+    return _then(AppStateAuthenticating(
+      info: info == freezed
+          ? _value.info
+          : info // ignore: cast_nullable_to_non_nullable
+              as MicropubServerInfo,
+      client: client == freezed
+          ? _value.client
+          : client // ignore: cast_nullable_to_non_nullable
+              as MicropubApiClient,
+    ));
+  }
+
+  @override
+  $MicropubServerInfoCopyWith<$Res> get info {
+    return $MicropubServerInfoCopyWith<$Res>(_value.info, (value) {
+      return _then(_value.copyWith(info: value));
+    });
+  }
 }
 
 /// @nodoc
 
 class _$AppStateAuthenticating implements AppStateAuthenticating {
-  const _$AppStateAuthenticating();
+  const _$AppStateAuthenticating({required this.info, required this.client});
+
+  @override
+  final MicropubServerInfo info;
+  @override
+  final MicropubApiClient client;
 
   @override
   String toString() {
-    return 'AppState.authenticating()';
+    return 'AppState.authenticating(info: $info, client: $client)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is AppStateAuthenticating);
+        (other.runtimeType == runtimeType &&
+            other is AppStateAuthenticating &&
+            const DeepCollectionEquality().equals(other.info, info) &&
+            const DeepCollectionEquality().equals(other.client, client));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(info),
+      const DeepCollectionEquality().hash(client));
+
+  @JsonKey(ignore: true)
+  @override
+  $AppStateAuthenticatingCopyWith<AppStateAuthenticating> get copyWith =>
+      _$AppStateAuthenticatingCopyWithImpl<AppStateAuthenticating>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initializing,
-    required TResult Function() notAuthenticated,
-    required TResult Function() authenticationFailed,
-    required TResult Function() authenticating,
-    required TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)
+    required TResult Function(MicropubApiClient client) initializing,
+    required TResult Function(MicropubApiClient client, dynamic error)
+        initializationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        initialized,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        notAuthenticated,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticating,
+    required TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)
         authenticated,
   }) {
-    return authenticating();
+    return authenticating(info, client);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initializing,
-    TResult Function()? notAuthenticated,
-    TResult Function()? authenticationFailed,
-    TResult Function()? authenticating,
-    TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)?
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
         authenticated,
   }) {
-    return authenticating?.call();
+    return authenticating?.call(info, client);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initializing,
-    TResult Function()? notAuthenticated,
-    TResult Function()? authenticationFailed,
-    TResult Function()? authenticating,
-    TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)?
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
         authenticated,
     required TResult orElse(),
   }) {
     if (authenticating != null) {
-      return authenticating();
+      return authenticating(info, client);
     }
     return orElse();
   }
@@ -628,6 +1494,9 @@ class _$AppStateAuthenticating implements AppStateAuthenticating {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(AppStateInitializing value) initializing,
+    required TResult Function(AppStateInitializationFailed value)
+        initializationFailed,
+    required TResult Function(AppStateInitialized value) initialized,
     required TResult Function(AppStateNotAuthenticated value) notAuthenticated,
     required TResult Function(AppStateNotAuthenticationFailed value)
         authenticationFailed,
@@ -641,6 +1510,8 @@ class _$AppStateAuthenticating implements AppStateAuthenticating {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
     TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
     TResult Function(AppStateNotAuthenticationFailed value)?
         authenticationFailed,
@@ -654,6 +1525,8 @@ class _$AppStateAuthenticating implements AppStateAuthenticating {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
     TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
     TResult Function(AppStateNotAuthenticationFailed value)?
         authenticationFailed,
@@ -669,7 +1542,15 @@ class _$AppStateAuthenticating implements AppStateAuthenticating {
 }
 
 abstract class AppStateAuthenticating implements AppState {
-  const factory AppStateAuthenticating() = _$AppStateAuthenticating;
+  const factory AppStateAuthenticating(
+      {required MicropubServerInfo info,
+      required MicropubApiClient client}) = _$AppStateAuthenticating;
+
+  MicropubServerInfo get info;
+  MicropubApiClient get client;
+  @JsonKey(ignore: true)
+  $AppStateAuthenticatingCopyWith<AppStateAuthenticating> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -679,12 +1560,14 @@ abstract class $AppStateAuthenticatedCopyWith<$Res> {
       _$AppStateAuthenticatedCopyWithImpl<$Res>;
   $Res call(
       {MicropubMe me,
-      MicropubApiClient client,
+      MicropubServerInfo info,
+      MicropubApiAuthenticatedClient client,
       PackagesState packages,
       AdminState admin,
       PackageState package});
 
   $MicropubMeCopyWith<$Res> get me;
+  $MicropubServerInfoCopyWith<$Res> get info;
   $PackagesStateCopyWith<$Res> get packages;
   $AdminStateCopyWith<$Res> get admin;
   $PackageStateCopyWith<$Res> get package;
@@ -704,6 +1587,7 @@ class _$AppStateAuthenticatedCopyWithImpl<$Res>
   @override
   $Res call({
     Object? me = freezed,
+    Object? info = freezed,
     Object? client = freezed,
     Object? packages = freezed,
     Object? admin = freezed,
@@ -714,10 +1598,14 @@ class _$AppStateAuthenticatedCopyWithImpl<$Res>
           ? _value.me
           : me // ignore: cast_nullable_to_non_nullable
               as MicropubMe,
+      info: info == freezed
+          ? _value.info
+          : info // ignore: cast_nullable_to_non_nullable
+              as MicropubServerInfo,
       client: client == freezed
           ? _value.client
           : client // ignore: cast_nullable_to_non_nullable
-              as MicropubApiClient,
+              as MicropubApiAuthenticatedClient,
       packages: packages == freezed
           ? _value.packages
           : packages // ignore: cast_nullable_to_non_nullable
@@ -737,6 +1625,13 @@ class _$AppStateAuthenticatedCopyWithImpl<$Res>
   $MicropubMeCopyWith<$Res> get me {
     return $MicropubMeCopyWith<$Res>(_value.me, (value) {
       return _then(_value.copyWith(me: value));
+    });
+  }
+
+  @override
+  $MicropubServerInfoCopyWith<$Res> get info {
+    return $MicropubServerInfoCopyWith<$Res>(_value.info, (value) {
+      return _then(_value.copyWith(info: value));
     });
   }
 
@@ -767,6 +1662,7 @@ class _$AppStateAuthenticatedCopyWithImpl<$Res>
 class _$AppStateAuthenticated implements AppStateAuthenticated {
   const _$AppStateAuthenticated(
       {required this.me,
+      required this.info,
       required this.client,
       required this.packages,
       required this.admin,
@@ -775,7 +1671,9 @@ class _$AppStateAuthenticated implements AppStateAuthenticated {
   @override
   final MicropubMe me;
   @override
-  final MicropubApiClient client;
+  final MicropubServerInfo info;
+  @override
+  final MicropubApiAuthenticatedClient client;
   @override
   final PackagesState packages;
   @override
@@ -785,7 +1683,7 @@ class _$AppStateAuthenticated implements AppStateAuthenticated {
 
   @override
   String toString() {
-    return 'AppState.authenticated(me: $me, client: $client, packages: $packages, admin: $admin, package: $package)';
+    return 'AppState.authenticated(me: $me, info: $info, client: $client, packages: $packages, admin: $admin, package: $package)';
   }
 
   @override
@@ -794,6 +1692,7 @@ class _$AppStateAuthenticated implements AppStateAuthenticated {
         (other.runtimeType == runtimeType &&
             other is AppStateAuthenticated &&
             const DeepCollectionEquality().equals(other.me, me) &&
+            const DeepCollectionEquality().equals(other.info, info) &&
             const DeepCollectionEquality().equals(other.client, client) &&
             const DeepCollectionEquality().equals(other.packages, packages) &&
             const DeepCollectionEquality().equals(other.admin, admin) &&
@@ -804,6 +1703,7 @@ class _$AppStateAuthenticated implements AppStateAuthenticated {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(me),
+      const DeepCollectionEquality().hash(info),
       const DeepCollectionEquality().hash(client),
       const DeepCollectionEquality().hash(packages),
       const DeepCollectionEquality().hash(admin),
@@ -818,45 +1718,81 @@ class _$AppStateAuthenticated implements AppStateAuthenticated {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initializing,
-    required TResult Function() notAuthenticated,
-    required TResult Function() authenticationFailed,
-    required TResult Function() authenticating,
-    required TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)
+    required TResult Function(MicropubApiClient client) initializing,
+    required TResult Function(MicropubApiClient client, dynamic error)
+        initializationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        initialized,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        notAuthenticated,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticationFailed,
+    required TResult Function(MicropubServerInfo info, MicropubApiClient client)
+        authenticating,
+    required TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)
         authenticated,
   }) {
-    return authenticated(me, client, packages, admin, package);
+    return authenticated(me, info, client, packages, admin, package);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initializing,
-    TResult Function()? notAuthenticated,
-    TResult Function()? authenticationFailed,
-    TResult Function()? authenticating,
-    TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)?
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
         authenticated,
   }) {
-    return authenticated?.call(me, client, packages, admin, package);
+    return authenticated?.call(me, info, client, packages, admin, package);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initializing,
-    TResult Function()? notAuthenticated,
-    TResult Function()? authenticationFailed,
-    TResult Function()? authenticating,
-    TResult Function(MicropubMe me, MicropubApiClient client,
-            PackagesState packages, AdminState admin, PackageState package)?
+    TResult Function(MicropubApiClient client)? initializing,
+    TResult Function(MicropubApiClient client, dynamic error)?
+        initializationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        initialized,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        notAuthenticated,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticationFailed,
+    TResult Function(MicropubServerInfo info, MicropubApiClient client)?
+        authenticating,
+    TResult Function(
+            MicropubMe me,
+            MicropubServerInfo info,
+            MicropubApiAuthenticatedClient client,
+            PackagesState packages,
+            AdminState admin,
+            PackageState package)?
         authenticated,
     required TResult orElse(),
   }) {
     if (authenticated != null) {
-      return authenticated(me, client, packages, admin, package);
+      return authenticated(me, info, client, packages, admin, package);
     }
     return orElse();
   }
@@ -865,6 +1801,9 @@ class _$AppStateAuthenticated implements AppStateAuthenticated {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(AppStateInitializing value) initializing,
+    required TResult Function(AppStateInitializationFailed value)
+        initializationFailed,
+    required TResult Function(AppStateInitialized value) initialized,
     required TResult Function(AppStateNotAuthenticated value) notAuthenticated,
     required TResult Function(AppStateNotAuthenticationFailed value)
         authenticationFailed,
@@ -878,6 +1817,8 @@ class _$AppStateAuthenticated implements AppStateAuthenticated {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
     TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
     TResult Function(AppStateNotAuthenticationFailed value)?
         authenticationFailed,
@@ -891,6 +1832,8 @@ class _$AppStateAuthenticated implements AppStateAuthenticated {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(AppStateInitializing value)? initializing,
+    TResult Function(AppStateInitializationFailed value)? initializationFailed,
+    TResult Function(AppStateInitialized value)? initialized,
     TResult Function(AppStateNotAuthenticated value)? notAuthenticated,
     TResult Function(AppStateNotAuthenticationFailed value)?
         authenticationFailed,
@@ -908,13 +1851,15 @@ class _$AppStateAuthenticated implements AppStateAuthenticated {
 abstract class AppStateAuthenticated implements AppState {
   const factory AppStateAuthenticated(
       {required MicropubMe me,
-      required MicropubApiClient client,
+      required MicropubServerInfo info,
+      required MicropubApiAuthenticatedClient client,
       required PackagesState packages,
       required AdminState admin,
       required PackageState package}) = _$AppStateAuthenticated;
 
   MicropubMe get me;
-  MicropubApiClient get client;
+  MicropubServerInfo get info;
+  MicropubApiAuthenticatedClient get client;
   PackagesState get packages;
   AdminState get admin;
   PackageState get package;

@@ -27,6 +27,10 @@ class PackagesView extends StatelessWidget {
       ),
       child: appState.map(
         initializing: (initializing) => const _Loading(),
+        initialized: (initialized) => const _Loading(),
+        initializationFailed: (failed) => _Failed(
+          description: 'Initialization failed\n${failed.error}',
+        ),
         notAuthenticated: (notAuthenticated) => const _Failed(
           description: 'Not authenticated',
         ),

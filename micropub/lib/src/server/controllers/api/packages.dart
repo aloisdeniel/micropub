@@ -60,11 +60,8 @@ class PackagesApiController {
         return shelf.Response.notFound('not found');
       }
 
-      var readme = await storage.loadReadme(name);
-
       final details = MicropubPackageDetails(
         package: package,
-        readme: readme,
       );
 
       return details.toJson().asJsonResponse();

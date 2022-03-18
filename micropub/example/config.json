@@ -1,8 +1,11 @@
 {
     "directory": ".",
+    "adminEmail": "admin@company.com",
     "adminKey": "adm1n",
+    "name": "Company",
+    "distantHostUrl": "https://micropub.company.com/",
     "host": "localhost",
-    "port": 8080,
+    "port": 8081,
     "ignored": {
         "sslCert": "ssl.cert",
         "sslKey": "ssl.key"

@@ -34,7 +34,7 @@ class AppFlatButton extends StatelessWidget {
     return TapBuilder(
       onTap: onTap,
       builder: (BuildContext context, TapState state, bool isFocused) {
-        final opacity = () {
+        final foregroundOpacity = () {
           switch (state) {
             case TapState.pressed:
               return 0.4;
@@ -44,19 +44,32 @@ class AppFlatButton extends StatelessWidget {
               return 0.0;
           }
         }();
-        return Container(
-          decoration: BoxDecoration(
-            color: background,
-            borderRadius: BorderRadius.all(theme.radius.regular),
-          ),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            color: foreground.withOpacity(opacity),
-            padding: padding,
-            child: Text(
-              title,
-              style: style.copyWith(
-                color: foreground,
+
+        final opacity = () {
+          switch (state) {
+            case TapState.disabled:
+              return 0.30;
+            default:
+              return 1.0;
+          }
+        }();
+        return AnimatedOpacity(
+          duration: const Duration(milliseconds: 200),
+          opacity: opacity,
+          child: Container(
+            decoration: BoxDecoration(
+              color: background,
+              borderRadius: BorderRadius.all(theme.radius.regular),
+            ),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              color: foreground.withOpacity(foregroundOpacity),
+              padding: padding,
+              child: Text(
+                title,
+                style: style.copyWith(
+                  color: foreground,
+                ),
               ),
             ),
           ),

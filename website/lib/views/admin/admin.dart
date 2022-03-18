@@ -39,6 +39,8 @@ class _AdminViewState extends State<AdminView> {
       ),
       child: appState.map(
         initializing: (authenticating) => const _Loading(),
+        initialized: (initialized) => const _Loading(),
+        initializationFailed: (initializationFailed) => const _Failed(),
         notAuthenticated: (notAuthenticated) => const _NotAuthorized(),
         authenticationFailed: (authenticationFailed) => const _NotAuthorized(),
         authenticating: (authenticating) => const _Loading(),

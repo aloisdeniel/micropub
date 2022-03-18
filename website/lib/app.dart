@@ -19,6 +19,7 @@ class MicropubWebsite extends StatelessWidget {
             builder: (context, routerDelegate, routeInformationParser) {
               return MaterialApp.router(
                 title: 'Micropub',
+                debugShowCheckedModeBanner: false,
                 routeInformationParser: routeInformationParser,
                 routerDelegate: routerDelegate,
               );

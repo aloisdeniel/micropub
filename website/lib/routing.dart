@@ -32,27 +32,36 @@ class _AppRoutingState extends State<AppRouting> {
     routes: <GoRoute>[
       GoRoute(
         path: '/',
-        builder: (BuildContext context, GoRouterState state) =>
-            const PackagesView(),
+        pageBuilder: (context, state) => NoTransitionPage<void>(
+          key: state.pageKey,
+          child: const PackagesView(),
+        ),
       ),
       GoRoute(
         path: '/packages/:name',
-        builder: (BuildContext context, GoRouterState state) {
+        pageBuilder: (context, state) {
           final packageName = state.params['name']!;
-          return PackageView(
-            packageName: packageName,
+          return NoTransitionPage<void>(
+            key: state.pageKey,
+            child: PackageView(
+              packageName: packageName,
+            ),
           );
         },
       ),
       GoRoute(
         path: '/admin',
-        builder: (BuildContext context, GoRouterState state) =>
-            const AdminView(),
+        pageBuilder: (context, state) => NoTransitionPage<void>(
+          key: state.pageKey,
+          child: const AdminView(),
+        ),
       ),
       GoRoute(
         path: '/auth',
-        builder: (BuildContext context, GoRouterState state) =>
-            const AuthenticationView(),
+        pageBuilder: (context, state) => NoTransitionPage<void>(
+          key: state.pageKey,
+          child: const AuthenticationView(),
+        ),
       ),
     ],
     redirect: (state) {

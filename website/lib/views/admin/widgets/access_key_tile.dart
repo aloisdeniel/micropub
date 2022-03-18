@@ -23,60 +23,66 @@ class AccessKeyTile extends StatelessWidget {
         color: theme.color.bodyBackground,
       ),
       child: Center(
-        child: TapBuilder(
-          onTap: () {},
-          builder: (context, state, isFocused) {
-            return ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: theme.size.maxWidth),
-              child: Container(
-                color: () {
-                  switch (state) {
-                    case TapState.hover:
-                      return theme.color.bodyHoverBackground;
-                    default:
-                      return Colors.transparent;
-                  }
-                }(),
-                padding: EdgeInsets.all(theme.spacing.big),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      accessKey.key,
-                      style: theme.typography.title3,
-                    ),
-                    Gap(theme.spacing.small),
-                    Text(
-                      accessKey.email,
-                      style: theme.typography.paragraph3,
-                    ),
-                    Gap(theme.spacing.small),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ...accessKey.authorizations.map(
-                          (e) => AuthorizationLabel(e),
-                        ),
-                      ],
-                    ),
-                    Gap(theme.spacing.small),
-                    Text(
-                      timeago.format(accessKey.creationDate),
-                      style: theme.typography.paragraph3.copyWith(
-                        color: theme.color.heroBarFieldPlaceholder,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: theme.size.maxWidth),
+          child: Padding(
+            padding: EdgeInsets.all(theme.spacing.big),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        accessKey.key,
+                        style: theme.typography.title3,
                       ),
-                    ),
-                    Gap(theme.spacing.small),
-                    AppFlatButton(
-                      title: 'Revoke',
-                      onTap: () => RevokeKeyDialog.show(context, accessKey),
-                    ),
-                  ],
+                      Gap(theme.spacing.small),
+                      Text(
+                        accessKey.email,
+                        style: theme.typography.paragraph3,
+                      ),
+                      Gap(theme.spacing.small),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ...accessKey.authorizations.map(
+                            (e) => AuthorizationLabel(e),
+                          ),
+                        ],
+                      ),
+                      Gap(theme.spacing.small),
+                      Text(
+                        timeago.format(accessKey.creationDate),
+                        style: theme.typography.paragraph3.copyWith(
+                          color: theme.color.heroBarFieldPlaceholder,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
+                PopupMenuButton<String>(
+                  onSelected: (x) {
+                    if (x == 'Revoke') {
+                      RevokeKeyDialog.show(context, accessKey);
+                    }
+                  },
+                  itemBuilder: (BuildContext context) {
+                    return {'Revoke'}.map(
+                      (String choice) {
+                        return PopupMenuItem<String>(
+                          value: choice,
+                          child: Text(choice),
+                        );
+                      },
+                    ).toList();
+                  },
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -102,11 +108,11 @@ class AuthorizationLabel extends StatelessWidget {
           color: () {
             switch (value) {
               case MicropubAuthorization.read:
-                return Colors.green;
+                return theme.color.readAccent;
               case MicropubAuthorization.write:
-                return Colors.red;
+                return theme.color.writeAccent;
               case MicropubAuthorization.admin:
-                return Colors.purple;
+                return theme.color.adminAccent;
             }
           }(),
         ),

@@ -14,7 +14,7 @@ class AppTheme extends InheritedWidget {
 
   final AppThemeData? data;
 
-  static const AppThemeData fallback = AppThemeData.fallback();
+  static final AppThemeData fallback = AppThemeData.fallback();
 
   static AppThemeData of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<AppTheme>()?.data ??

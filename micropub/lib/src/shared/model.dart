@@ -50,7 +50,6 @@ class MicropubPackageDetails with _$MicropubPackageDetails {
   @JsonSerializable(explicitToJson: true, anyMap: true)
   const factory MicropubPackageDetails({
     required MicropubPackage package,
-    String? readme,
   }) = _MicropubPackageDetails;
 
   factory MicropubPackageDetails.fromJson(Map<String, dynamic> map) =>
@@ -94,6 +93,19 @@ class MicropubAccessKey with _$MicropubAccessKey {
 
   factory MicropubAccessKey.fromJson(Map<String, dynamic> map) =>
       _$MicropubAccessKeyFromJson(map);
+}
+
+@Freezed()
+class MicropubServerInfo with _$MicropubServerInfo {
+  @JsonSerializable(explicitToJson: true, anyMap: true)
+  const factory MicropubServerInfo({
+    String? name,
+    required String adminEmail,
+    required String distantHostUrl,
+  }) = _MicropubServerInfo;
+
+  factory MicropubServerInfo.fromJson(Map<String, dynamic> map) =>
+      _$MicropubServerInfoFromJson(map);
 }
 
 enum MicropubAuthorization {

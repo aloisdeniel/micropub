@@ -24,7 +24,5 @@ abstract class MicropubStorage {
 
   Stream<List<int>> download(String name, String version);
 
-  Future<String?> loadReadme(String name);
-
   Future<void> upload(String name, String version, List<int> content);
 }

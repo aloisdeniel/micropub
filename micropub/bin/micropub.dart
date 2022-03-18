@@ -135,7 +135,7 @@ class PublishCommand extends Command {
 
       final tarData = TarEncoder().encode(archive);
 
-      final client = MicropubApiClient(
+      final client = MicropubApiAuthenticatedClient(
         accessKey: key,
         baseUri: host,
       );

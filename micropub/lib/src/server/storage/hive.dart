@@ -182,27 +182,6 @@ class MicropubHiveStorage extends MicropubStorage {
     await file.writeAsBytes(content);
   }
 
-  @override
-  Future<String?> loadReadme(String name) async {
-    final package = await queryPackage(name);
-    if (package == null) throw Exception('Package not found');
-    final archive =
-        await _getPackageArchive(name, package.versions.first.version);
-
-    final inputStream = InputFileStream(archive.path);
-    final decoded = TarDecoder().decodeBuffer(inputStream);
-    final readme = decoded.files.firstWhereOrNull(
-      (x) => x.name.toLowerCase() == 'readme.md',
-    );
-
-    if (readme == null) return null;
-
-    final outputStream = OutputStream();
-    readme.writeContent(outputStream);
-
-    return utf8.decode(outputStream.getBytes());
-  }
-
   Future<File> _getPackageArchive(String name, String version) async {
     final directory = Directory(path.join(
       this.directory.path,

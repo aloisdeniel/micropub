@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:tap_builder/tap_builder.dart';
 import 'package:micropub/client.dart';
+import 'package:website/state/notifier.dart';
 import 'package:website/theme/theme.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -106,9 +108,22 @@ class _CopyRefButtonState extends State<CopyRefButton> {
   }
 
   String buildRef() {
+    final distantHostUrl = context
+        .read<AppStateNotifier>()
+        .value
+        .map(
+          initializing: (x) => null,
+          initializationFailed: (x) => null,
+          initialized: (x) => x.info,
+          authenticated: (x) => x.info,
+          authenticating: (x) => x.info,
+          authenticationFailed: (x) => x.info,
+          notAuthenticated: (x) => x.info,
+        )
+        ?.distantHostUrl;
     return '''
     ${widget.package.name}:
-      hosted: https://micropub.com/ # indicate your own micropub address
+      hosted: $distantHostUrl
       version: ^${widget.package.versions.first.version}
 '''
         .trim();

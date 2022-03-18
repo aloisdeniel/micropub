@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:micropub/client.dart';
 import 'package:website/state/notifier.dart';
 import 'package:website/theme/theme.dart';
 import 'package:website/views/package/widgets/content_entry.dart';
-import 'package:website/views/package/widgets/installing_doc.dart';
+import 'package:website/views/package/widgets/tabs/installing.dart';
+import 'package:website/views/package/widgets/tabs/readme.dart';
+import 'package:website/views/package/widgets/tabs/versions.dart';
 import 'package:website/views/packages/widgets/action_bar.dart';
 import 'package:website/widgets/footer.dart';
 
 import 'widgets/header.dart';
 import 'widgets/tabs.dart';
-import 'widgets/version_tile.dart';
+import 'widgets/tabs/dependencies.dart';
 
 class PackageView extends StatefulWidget {
   const PackageView({
@@ -45,6 +46,10 @@ class _PackageViewState extends State<PackageView> {
       ),
       child: appState.map(
         initializing: (initializing) => const _Loading(),
+        initialized: (initialized) => const _Loading(),
+        initializationFailed: (failed) => _Failed(
+          description: 'Initialization failed\n${failed.error}',
+        ),
         notAuthenticated: (notAuthenticated) => const _Failed(
           description: 'Not authenticated',
         ),
@@ -141,87 +146,62 @@ class _ResultsState extends State<_Results> {
     final theme = AppTheme.of(context);
     return Container(
       color: theme.color.barBarBackground,
-      child: ListView(
-        children: [
-          const AppActionBar(),
-          PackageHeader(
-            package: widget.package.package,
-          ),
-          ContentEntry(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: theme.spacing.regular),
-              child: PackageTabs(
-                selectedIndex: selectedTab,
-                onSelectedIndexChanged: (i) => setState(() {
-                  selectedTab = i;
-                }),
-                tabs: const [
-                  'Readme',
-                  'Installing',
-                  'Versions',
-                ],
+      child: CustomScrollView(
+        slivers: [
+          SliverList(
+            delegate: SliverChildListDelegate([
+              const AppActionBar(),
+              PackageHeader(
+                package: widget.package.package,
               ),
-            ),
+              ContentEntry(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: theme.spacing.regular),
+                  child: PackageTabs(
+                    selectedIndex: selectedTab,
+                    onSelectedIndexChanged: (i) => setState(() {
+                      selectedTab = i;
+                    }),
+                    tabs: const [
+                      'Readme',
+                      'Installing',
+                      'Dependencies',
+                      'Versions',
+                    ],
+                  ),
+                ),
+              ),
+            ]),
           ),
-          ...() {
+          () {
             if (selectedTab == 0) {
-              return [
-                _DescriptionTab(
-                  package: widget.package,
-                )
-              ];
+              return ReadmeTab(
+                package: widget.package,
+              );
             }
 
             if (selectedTab == 1) {
-              return [
-                InstallingDoc(
-                  package: widget.package,
-                )
-              ];
+              return InstallingTab(
+                package: widget.package,
+              );
             }
 
             if (selectedTab == 2) {
-              return [
-                ...widget.package.package.versions.map(
-                  (e) => VersionTile(
-                    version: e,
-                  ),
-                ),
-                ContentEntry(
-                  child: SizedBox(
-                    height: theme.spacing.extraBig,
-                  ),
-                ),
-              ];
+              return DependenciesTab(
+                package: widget.package,
+              );
             }
 
-            return const [];
+            if (selectedTab == 3) {
+              return VersionsTab(
+                package: widget.package,
+              );
+            }
+
+            throw Exception();
           }(),
-          const AppFooter(),
+          const SliverToBoxAdapter(child: AppFooter()),
         ],
-      ),
-    );
-  }
-}
-
-class _DescriptionTab extends StatelessWidget {
-  const _DescriptionTab({
-    Key? key,
-    required this.package,
-  }) : super(key: key);
-
-  final MicropubPackageDetails package;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = AppTheme.of(context);
-    return ContentEntry(
-      child: Padding(
-        padding: EdgeInsets.all(theme.spacing.small),
-        child: MarkdownBody(
-          selectable: true,
-          data: package.readme ?? 'No readme',
-        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:website/theme/theme.dart';
 
 import 'text_button.dart';
@@ -20,8 +21,10 @@ class AppFooter extends StatelessWidget {
         padding: EdgeInsets.all(theme.spacing.regular),
         child: Center(
           child: AppTextButton(
-            title: 'Learn more on micropub from Github',
-            onTap: () {},
+            title: 'micropub from Github',
+            onTap: () {
+              launch('https://github.com/aloisdeniel/micropub');
+            },
           ),
         ),
       ),

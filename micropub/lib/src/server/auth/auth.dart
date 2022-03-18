@@ -1,11 +1,11 @@
 import 'package:logging/logging.dart';
-import 'package:micropub/src/shared/model.dart';
+import 'package:micropub/server.dart';
 import 'package:shelf/shelf.dart';
 
 abstract class MicropubAuth {
-  const MicropubAuth(this.adminKey);
+  const MicropubAuth(this.options);
 
-  final String adminKey;
+  final MicropubOptions options;
 
   Future<MicropubAccessKey?> getAccessKey(String key);
 
@@ -18,6 +18,13 @@ abstract class MicropubAuth {
 
   Future<void> revokeKey(String key);
 
+  static Handler authenticated(Handler innerHandler) {
+    return (Request request) async {
+      request.context['auth'] = true;
+      return innerHandler(request);
+    };
+  }
+
   Handler middleware(Handler innerHandler) {
     return (Request request) async {
       Logger.root.info('[Auth]');
@@ -25,13 +32,12 @@ abstract class MicropubAuth {
       if (header != null && header.toLowerCase().startsWith('bearer ')) {
         final key = header.substring(7);
         Logger.root.info(' Authorization header found');
-        if (key == adminKey) {
-          Logger.root.info(' Is admin');
+        if (key == options.adminKey) {
           return innerHandler(
             request.change(
               context: {
                 ...request.context,
-                'email': 'admin',
+                'email': options.adminEmail,
                 'authorizations': [
                   MicropubAuthorization.admin,
                   MicropubAuthorization.read,

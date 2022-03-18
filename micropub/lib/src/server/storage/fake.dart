@@ -34,6 +34,7 @@ MicropubPackageDetails _createPackage(String name, int lastUpdate) {
             'name': name,
             'description': 'Default description for the $name package',
           },
+          readme: _freezedReadme,
           uploader: 'john.doe@email.com',
           createdAt: DateTime.now().add(Duration(days: -lastUpdate)),
         ),
@@ -43,6 +44,7 @@ MicropubPackageDetails _createPackage(String name, int lastUpdate) {
             'name': name,
             'description': 'Default description for the $name package',
           },
+          readme: _freezedReadme,
           uploader: 'john.doe@email.com',
           createdAt: DateTime.now().add(Duration(days: -lastUpdate - 1)),
         ),
@@ -52,12 +54,12 @@ MicropubPackageDetails _createPackage(String name, int lastUpdate) {
             'name': name,
             'description': 'Default description for the $name package',
           },
+          readme: _freezedReadme,
           uploader: 'john.doe@email.com',
           createdAt: DateTime.now().add(Duration(days: -lastUpdate - 2)),
         ),
       ],
     ),
-    readme: _freezedReadme,
   );
 }
 

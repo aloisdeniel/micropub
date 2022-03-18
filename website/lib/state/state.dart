@@ -5,14 +5,33 @@ part 'state.freezed.dart';
 
 @Freezed()
 class AppState with _$AppState {
-  const factory AppState.initializing() = AppStateInitializing;
-  const factory AppState.notAuthenticated() = AppStateNotAuthenticated;
-  const factory AppState.authenticationFailed() =
-      AppStateNotAuthenticationFailed;
-  const factory AppState.authenticating() = AppStateAuthenticating;
+  const factory AppState.initializing({
+    required MicropubApiClient client,
+  }) = AppStateInitializing;
+  const factory AppState.initializationFailed({
+    required MicropubApiClient client,
+    required dynamic error,
+  }) = AppStateInitializationFailed;
+  const factory AppState.initialized({
+    required MicropubServerInfo info,
+    required MicropubApiClient client,
+  }) = AppStateInitialized;
+  const factory AppState.notAuthenticated({
+    required MicropubServerInfo info,
+    required MicropubApiClient client,
+  }) = AppStateNotAuthenticated;
+  const factory AppState.authenticationFailed({
+    required MicropubServerInfo info,
+    required MicropubApiClient client,
+  }) = AppStateNotAuthenticationFailed;
+  const factory AppState.authenticating({
+    required MicropubServerInfo info,
+    required MicropubApiClient client,
+  }) = AppStateAuthenticating;
   const factory AppState.authenticated({
     required MicropubMe me,
-    required MicropubApiClient client,
+    required MicropubServerInfo info,
+    required MicropubApiAuthenticatedClient client,
     required PackagesState packages,
     required AdminState admin,
     required PackageState package,

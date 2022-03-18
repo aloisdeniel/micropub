@@ -24,16 +24,22 @@ class _$MicropubOptionsTearOff {
 
   _MicropubOptions call(
       {required String adminKey,
+      required String adminEmail,
       required String host,
       required int port,
       String directory = '.',
+      String? name,
+      String? distantHostUrl,
       String? sslCert,
       String? sslKey}) {
     return _MicropubOptions(
       adminKey: adminKey,
+      adminEmail: adminEmail,
       host: host,
       port: port,
       directory: directory,
+      name: name,
+      distantHostUrl: distantHostUrl,
       sslCert: sslCert,
       sslKey: sslKey,
     );
@@ -50,9 +56,12 @@ const $MicropubOptions = _$MicropubOptionsTearOff();
 /// @nodoc
 mixin _$MicropubOptions {
   String get adminKey => throw _privateConstructorUsedError;
+  String get adminEmail => throw _privateConstructorUsedError;
   String get host => throw _privateConstructorUsedError;
   int get port => throw _privateConstructorUsedError;
   String get directory => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get distantHostUrl => throw _privateConstructorUsedError;
   String? get sslCert => throw _privateConstructorUsedError;
   String? get sslKey => throw _privateConstructorUsedError;
 
@@ -69,9 +78,12 @@ abstract class $MicropubOptionsCopyWith<$Res> {
       _$MicropubOptionsCopyWithImpl<$Res>;
   $Res call(
       {String adminKey,
+      String adminEmail,
       String host,
       int port,
       String directory,
+      String? name,
+      String? distantHostUrl,
       String? sslCert,
       String? sslKey});
 }
@@ -88,9 +100,12 @@ class _$MicropubOptionsCopyWithImpl<$Res>
   @override
   $Res call({
     Object? adminKey = freezed,
+    Object? adminEmail = freezed,
     Object? host = freezed,
     Object? port = freezed,
     Object? directory = freezed,
+    Object? name = freezed,
+    Object? distantHostUrl = freezed,
     Object? sslCert = freezed,
     Object? sslKey = freezed,
   }) {
@@ -98,6 +113,10 @@ class _$MicropubOptionsCopyWithImpl<$Res>
       adminKey: adminKey == freezed
           ? _value.adminKey
           : adminKey // ignore: cast_nullable_to_non_nullable
+              as String,
+      adminEmail: adminEmail == freezed
+          ? _value.adminEmail
+          : adminEmail // ignore: cast_nullable_to_non_nullable
               as String,
       host: host == freezed
           ? _value.host
@@ -111,6 +130,14 @@ class _$MicropubOptionsCopyWithImpl<$Res>
           ? _value.directory
           : directory // ignore: cast_nullable_to_non_nullable
               as String,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      distantHostUrl: distantHostUrl == freezed
+          ? _value.distantHostUrl
+          : distantHostUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       sslCert: sslCert == freezed
           ? _value.sslCert
           : sslCert // ignore: cast_nullable_to_non_nullable
@@ -132,9 +159,12 @@ abstract class _$MicropubOptionsCopyWith<$Res>
   @override
   $Res call(
       {String adminKey,
+      String adminEmail,
       String host,
       int port,
       String directory,
+      String? name,
+      String? distantHostUrl,
       String? sslCert,
       String? sslKey});
 }
@@ -153,9 +183,12 @@ class __$MicropubOptionsCopyWithImpl<$Res>
   @override
   $Res call({
     Object? adminKey = freezed,
+    Object? adminEmail = freezed,
     Object? host = freezed,
     Object? port = freezed,
     Object? directory = freezed,
+    Object? name = freezed,
+    Object? distantHostUrl = freezed,
     Object? sslCert = freezed,
     Object? sslKey = freezed,
   }) {
@@ -163,6 +196,10 @@ class __$MicropubOptionsCopyWithImpl<$Res>
       adminKey: adminKey == freezed
           ? _value.adminKey
           : adminKey // ignore: cast_nullable_to_non_nullable
+              as String,
+      adminEmail: adminEmail == freezed
+          ? _value.adminEmail
+          : adminEmail // ignore: cast_nullable_to_non_nullable
               as String,
       host: host == freezed
           ? _value.host
@@ -176,6 +213,14 @@ class __$MicropubOptionsCopyWithImpl<$Res>
           ? _value.directory
           : directory // ignore: cast_nullable_to_non_nullable
               as String,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      distantHostUrl: distantHostUrl == freezed
+          ? _value.distantHostUrl
+          : distantHostUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       sslCert: sslCert == freezed
           ? _value.sslCert
           : sslCert // ignore: cast_nullable_to_non_nullable
@@ -193,9 +238,12 @@ class __$MicropubOptionsCopyWithImpl<$Res>
 class _$_MicropubOptions extends _MicropubOptions {
   const _$_MicropubOptions(
       {required this.adminKey,
+      required this.adminEmail,
       required this.host,
       required this.port,
       this.directory = '.',
+      this.name,
+      this.distantHostUrl,
       this.sslCert,
       this.sslKey})
       : super._();
@@ -206,6 +254,8 @@ class _$_MicropubOptions extends _MicropubOptions {
   @override
   final String adminKey;
   @override
+  final String adminEmail;
+  @override
   final String host;
   @override
   final int port;
@@ -213,13 +263,17 @@ class _$_MicropubOptions extends _MicropubOptions {
   @override
   final String directory;
   @override
+  final String? name;
+  @override
+  final String? distantHostUrl;
+  @override
   final String? sslCert;
   @override
   final String? sslKey;
 
   @override
   String toString() {
-    return 'MicropubOptions(adminKey: $adminKey, host: $host, port: $port, directory: $directory, sslCert: $sslCert, sslKey: $sslKey)';
+    return 'MicropubOptions(adminKey: $adminKey, adminEmail: $adminEmail, host: $host, port: $port, directory: $directory, name: $name, distantHostUrl: $distantHostUrl, sslCert: $sslCert, sslKey: $sslKey)';
   }
 
   @override
@@ -228,9 +282,14 @@ class _$_MicropubOptions extends _MicropubOptions {
         (other.runtimeType == runtimeType &&
             other is _MicropubOptions &&
             const DeepCollectionEquality().equals(other.adminKey, adminKey) &&
+            const DeepCollectionEquality()
+                .equals(other.adminEmail, adminEmail) &&
             const DeepCollectionEquality().equals(other.host, host) &&
             const DeepCollectionEquality().equals(other.port, port) &&
             const DeepCollectionEquality().equals(other.directory, directory) &&
+            const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality()
+                .equals(other.distantHostUrl, distantHostUrl) &&
             const DeepCollectionEquality().equals(other.sslCert, sslCert) &&
             const DeepCollectionEquality().equals(other.sslKey, sslKey));
   }
@@ -239,9 +298,12 @@ class _$_MicropubOptions extends _MicropubOptions {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(adminKey),
+      const DeepCollectionEquality().hash(adminEmail),
       const DeepCollectionEquality().hash(host),
       const DeepCollectionEquality().hash(port),
       const DeepCollectionEquality().hash(directory),
+      const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(distantHostUrl),
       const DeepCollectionEquality().hash(sslCert),
       const DeepCollectionEquality().hash(sslKey));
 
@@ -259,9 +321,12 @@ class _$_MicropubOptions extends _MicropubOptions {
 abstract class _MicropubOptions extends MicropubOptions {
   const factory _MicropubOptions(
       {required String adminKey,
+      required String adminEmail,
       required String host,
       required int port,
       String directory,
+      String? name,
+      String? distantHostUrl,
       String? sslCert,
       String? sslKey}) = _$_MicropubOptions;
   const _MicropubOptions._() : super._();
@@ -272,11 +337,17 @@ abstract class _MicropubOptions extends MicropubOptions {
   @override
   String get adminKey;
   @override
+  String get adminEmail;
+  @override
   String get host;
   @override
   int get port;
   @override
   String get directory;
+  @override
+  String? get name;
+  @override
+  String? get distantHostUrl;
   @override
   String? get sslCert;
   @override

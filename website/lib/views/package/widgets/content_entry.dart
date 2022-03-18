@@ -17,7 +17,10 @@ class ContentEntry extends StatelessWidget {
       child: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: theme.size.maxWidth),
-          child: child,
+          child: SizedBox(
+            width: double.infinity,
+            child: child,
+          ),
         ),
       ),
     );

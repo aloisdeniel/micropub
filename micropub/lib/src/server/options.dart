@@ -11,9 +11,12 @@ class MicropubOptions with _$MicropubOptions {
   const MicropubOptions._();
   const factory MicropubOptions({
     required String adminKey,
+    required String adminEmail,
     required String host,
     required int port,
     @Default('.') String directory,
+    String? name,
+    String? distantHostUrl,
     String? sslCert,
     String? sslKey,
   }) = _MicropubOptions;
@@ -37,10 +40,13 @@ class MicropubOptions with _$MicropubOptions {
     return MicropubOptions(
       directory: key('DIRECTORY', '.'),
       adminKey: key('ADMIN_KEY'),
+      adminEmail: key('ADMIN_EMAIL'),
       host: key('HOST'),
       port: int.parse(
         key('PORT'),
       ),
+      name: optionalKey('NAME'),
+      distantHostUrl: optionalKey('DISTANT_HOST_URL'),
       sslCert: optionalKey('SSL_CERT'),
       sslKey: optionalKey('SSL_KEY'),
     );

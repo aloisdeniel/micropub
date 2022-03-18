@@ -1,9 +1,36 @@
 import 'package:flutter/widgets.dart';
 import 'package:micropub/client.dart';
 import 'package:website/theme/theme.dart';
+import 'package:website/views/package/widgets/content_entry.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import 'content_entry.dart';
+class VersionsTab extends StatelessWidget {
+  const VersionsTab({
+    Key? key,
+    required this.package,
+  }) : super(key: key);
+
+  final MicropubPackageDetails package;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = AppTheme.of(context);
+    return SliverList(
+      delegate: SliverChildListDelegate([
+        ...package.package.versions.map(
+          (e) => VersionTile(
+            version: e,
+          ),
+        ),
+        ContentEntry(
+          child: SizedBox(
+            height: theme.spacing.extraBig,
+          ),
+        ),
+      ]),
+    );
+  }
+}
 
 class VersionTile extends StatelessWidget {
   const VersionTile({

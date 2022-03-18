@@ -7,12 +7,81 @@ import 'package:micropub/src/shared/model.dart';
 
 class MicropubApiClient {
   const MicropubApiClient({
-    required this.accessKey,
     this.baseUri = '/',
   });
 
   final String baseUri;
-  final String? accessKey;
+
+  Future<MicropubServerInfo> info() {
+    return _get('/info', (x) => MicropubServerInfo.fromJson(x));
+  }
+
+  Uri _buildUri(
+    String path, {
+    Map<String, String> query = const <String, String>{},
+  }) {
+    final queryUri = query.isEmpty
+        ? ''
+        : '?' +
+            Uri(
+              queryParameters: query,
+            ).query;
+    final baseUri = this.baseUri.endsWith('/')
+        ? this.baseUri.substring(0, this.baseUri.length - 1)
+        : this.baseUri;
+    return Uri.parse('$baseUri/api$path$queryUri');
+  }
+
+  Future<T> _get<T>(
+    String path,
+    T Function(dynamic body) deserialize, {
+    Map<String, String> query = const <String, String>{},
+  }) async {
+    final result = await get(
+      _buildUri(path, query: query),
+      headers: headers,
+    );
+    return deserialize(jsonDecode(result.body));
+  }
+
+  Future<T> _post<T>(
+    String path,
+    T Function(dynamic body) deserialize, {
+    Map<String, String> query = const <String, String>{},
+    dynamic body,
+  }) async {
+    final result = await post(
+      _buildUri(path, query: query),
+      body: body != null ? jsonEncode(body) : null,
+      headers: headers,
+    );
+    return deserialize(jsonDecode(result.body));
+  }
+
+  Future<T> _delete<T>(
+    String path,
+    T Function(dynamic body) deserialize, {
+    Map<String, String> query = const <String, String>{},
+    dynamic body,
+  }) async {
+    final result = await delete(
+      _buildUri(path, query: query),
+      body: body != null ? jsonEncode(body) : null,
+      headers: headers,
+    );
+    return deserialize(jsonDecode(result.body));
+  }
+
+  Map<String, String> get headers => {'content-type': 'application/json'};
+}
+
+class MicropubApiAuthenticatedClient extends MicropubApiClient {
+  const MicropubApiAuthenticatedClient({
+    required this.accessKey,
+    String baseUri = '/',
+  }) : super(baseUri: baseUri);
+
+  final String accessKey;
 
   Future<MicropubMe> me() {
     return _get('/me', (x) => MicropubMe.fromJson(x));
@@ -111,64 +180,9 @@ class MicropubApiClient {
     }
   }
 
-  Uri _buildUri(
-    String path, {
-    Map<String, String> query = const <String, String>{},
-  }) {
-    final queryUri = query.isEmpty
-        ? ''
-        : '?' +
-            Uri(
-              queryParameters: query,
-            ).query;
-    final baseUri = this.baseUri.endsWith('/')
-        ? this.baseUri.substring(0, this.baseUri.length - 1)
-        : this.baseUri;
-    return Uri.parse('$baseUri/api$path$queryUri');
-  }
-
-  Future<T> _get<T>(
-    String path,
-    T Function(dynamic body) deserialize, {
-    Map<String, String> query = const <String, String>{},
-  }) async {
-    final result = await get(
-      _buildUri(path, query: query),
-      headers: headers,
-    );
-    return deserialize(jsonDecode(result.body));
-  }
-
-  Future<T> _post<T>(
-    String path,
-    T Function(dynamic body) deserialize, {
-    Map<String, String> query = const <String, String>{},
-    dynamic body,
-  }) async {
-    final result = await post(
-      _buildUri(path, query: query),
-      body: body != null ? jsonEncode(body) : null,
-      headers: headers,
-    );
-    return deserialize(jsonDecode(result.body));
-  }
-
-  Future<T> _delete<T>(
-    String path,
-    T Function(dynamic body) deserialize, {
-    Map<String, String> query = const <String, String>{},
-    dynamic body,
-  }) async {
-    final result = await delete(
-      _buildUri(path, query: query),
-      body: body != null ? jsonEncode(body) : null,
-      headers: headers,
-    );
-    return deserialize(jsonDecode(result.body));
-  }
-
-  Map<String, String>? get headers => {
+  @override
+  Map<String, String> get headers => {
+        ...super.headers,
         'authorization': 'bearer $accessKey',
-        'content-type': 'application/json'
       };
 }

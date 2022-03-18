@@ -8,7 +8,12 @@ import 'package:website/state/state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppStateNotifier extends ValueNotifier<AppState> {
-  AppStateNotifier() : super(const AppState.initializing()) {
+  AppStateNotifier()
+      : super(const AppState.initializing(
+          client: MicropubApiClient(
+            baseUri: kDebugMode ? 'http://localhost:8081/' : '/',
+          ),
+        )) {
     unawaited(initialize());
   }
 
@@ -16,43 +21,98 @@ class AppStateNotifier extends ValueNotifier<AppState> {
     return Provider.of<AppStateNotifier>(context, listen: false);
   }
 
+  MicropubApiClient get client => value.map(
+        initializing: (initializing) => initializing.client,
+        initialized: (x) => x.client,
+        initializationFailed: (initializationFailed) =>
+            initializationFailed.client,
+        notAuthenticated: (notAuthenticated) => notAuthenticated.client,
+        authenticationFailed: (authenticationFailed) =>
+            authenticationFailed.client,
+        authenticating: (authenticating) => authenticating.client,
+        authenticated: (authenticated) => authenticated.client,
+      );
+
+  T withInfo<T>({
+    required T Function(MicropubServerInfo info) available,
+    required T Function() notAvailable,
+  }) =>
+      value.map(
+        initializing: (initializing) => notAvailable(),
+        initializationFailed: (initializationFailed) => notAvailable(),
+        initialized: (initialized) => available(initialized.info),
+        notAuthenticated: (notAuthenticated) =>
+            available(notAuthenticated.info),
+        authenticationFailed: (authenticationFailed) =>
+            available(authenticationFailed.info),
+        authenticating: (authenticating) => available(authenticating.info),
+        authenticated: (authenticated) => available(authenticated.info),
+      );
+
   Future<void> initialize() async {
     final prefs = await SharedPreferences.getInstance();
     final accessKey = prefs.getString('access-key');
-    if (accessKey == null) {
-      value = const AppState.notAuthenticated();
-    } else {
-      await authenticate(accessKey);
+    try {
+      final newInfo = await client.info();
+      value = AppState.initialized(
+        client: client,
+        info: newInfo,
+      );
+      if (accessKey == null) {
+        value = AppState.notAuthenticated(
+          client: client,
+          info: newInfo,
+        );
+      } else {
+        await authenticate(accessKey);
+      }
+    } catch (e) {
+      value = AppState.initializationFailed(
+        client: client,
+        error: e,
+      );
     }
   }
 
   Future<void> authenticate(String accessKey) async {
-    try {
-      value = const AppState.authenticating();
-      final client = MicropubApiClient(
-        baseUri: kDebugMode ? 'http://localhost:8080/' : '/',
-        accessKey: accessKey,
-      );
-      final me = await client.me();
-      value = AppState.authenticated(
-        me: me,
-        client: client,
-        package: const PackageState.notLoaded(),
-        packages: const PackagesState.notLoaded(
-          page: -1,
-          pageSize: 100,
-          query: '',
-        ),
-        admin: me.authorizations.contains(MicropubAuthorization.admin)
-            ? const AdminState.notLoaded()
-            : const AdminState.notAuthorized(),
-      );
+    return withInfo(
+      available: (info) async {
+        try {
+          value = AppState.authenticating(
+            info: info,
+            client: client,
+          );
+          final authClient = MicropubApiAuthenticatedClient(
+            baseUri: client.baseUri,
+            accessKey: accessKey,
+          );
+          final me = await authClient.me();
+          value = AppState.authenticated(
+            me: me,
+            info: info,
+            client: authClient,
+            package: const PackageState.notLoaded(),
+            packages: const PackagesState.notLoaded(
+              page: -1,
+              pageSize: 100,
+              query: '',
+            ),
+            admin: me.authorizations.contains(MicropubAuthorization.admin)
+                ? const AdminState.notLoaded()
+                : const AdminState.notAuthorized(),
+          );
 
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('access-key', accessKey);
-    } catch (e) {
-      value = const AppState.authenticationFailed();
-    }
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('access-key', accessKey);
+        } catch (e) {
+          value = AppState.authenticationFailed(
+            client: client,
+            info: info,
+          );
+        }
+      },
+      notAvailable: () => Future.value(),
+    );
   }
 
   Future<void> refreshAdmin() {
@@ -131,9 +191,17 @@ class AppStateNotifier extends ValueNotifier<AppState> {
   }
 
   Future<void> disconnect() async {
-    value = const AppState.notAuthenticated();
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('access-key');
+    return withInfo(
+      available: (info) async {
+        value = AppState.notAuthenticated(
+          client: client,
+          info: info,
+        );
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.remove('access-key');
+      },
+      notAvailable: () => Future.value(),
+    );
   }
 
   Future<void> loadPackages(int page, String query) {
@@ -243,7 +311,7 @@ class AppStateNotifier extends ValueNotifier<AppState> {
   }
 
   Future<PackagesState> _loadPackages(
-    MicropubApiClient client,
+    MicropubApiAuthenticatedClient client,
     int page,
     int pageSize,
     String query,
@@ -274,7 +342,7 @@ class AppStateNotifier extends ValueNotifier<AppState> {
   }
 
   Future<PackageState> _loadPackage(
-      MicropubApiClient client, String name) async {
+      MicropubApiAuthenticatedClient client, String name) async {
     try {
       final result = await client.getPackageDetails(name);
 

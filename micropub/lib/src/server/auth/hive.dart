@@ -1,4 +1,5 @@
 import 'package:micropub/src/server/auth/auth.dart';
+import 'package:micropub/src/server/options.dart';
 import 'package:micropub/src/shared/model.dart';
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
@@ -7,8 +8,8 @@ var uuid = Uuid();
 
 class MicropubHiveAuth extends MicropubAuth {
   MicropubHiveAuth({
-    required String adminKey,
-  }) : super(adminKey);
+    required MicropubOptions options,
+  }) : super(options);
 
   final box = Hive.box('auth.micropub');
 

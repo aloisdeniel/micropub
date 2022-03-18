@@ -30,52 +30,55 @@ class AppActionBar extends StatelessWidget {
       child: Container(
         color: theme.color.barBarBackground,
         width: double.infinity,
-        child: Stack(
-          alignment: Alignment.centerLeft,
-          children: [
-            const _Logo(),
-            Positioned.fill(
-              child: Center(
-                child: Text(
-                  appState.maybeMap(
-                    authenticated: (authenticated) =>
-                        'Welcome ${authenticated.me.email}!',
-                    orElse: () => '',
-                  ),
-                  style: theme.typography.paragraph2.copyWith(
-                    color: theme.color.heroBarFieldPlaceholder,
+        child: LayoutBuilder(builder: (context, constraints) {
+          return Stack(
+            alignment: Alignment.centerLeft,
+            children: [
+              const _Logo(),
+              if (constraints.maxWidth > theme.size.maxWidth)
+                Positioned.fill(
+                  child: Center(
+                    child: Text(
+                      appState.maybeMap(
+                        authenticated: (authenticated) =>
+                            'Welcome ${authenticated.me.email}!',
+                        orElse: () => '',
+                      ),
+                      style: theme.typography.paragraph3.copyWith(
+                        color: theme.color.heroBarFieldPlaceholder,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Positioned(
-              right: 0,
-              top: 0,
-              bottom: 0,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (isAdmin) ...[
+              Positioned(
+                right: 0,
+                top: 0,
+                bottom: 0,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (isAdmin) ...[
+                      AppTextButton(
+                        title: 'Admin',
+                        onTap: () {
+                          context.go('/admin');
+                        },
+                      ),
+                      Gap(theme.spacing.regular),
+                    ],
                     AppTextButton(
-                      title: 'Admin',
+                      title: 'Disconnect',
                       onTap: () {
-                        context.go('/admin');
+                        final notifier = AppStateNotifier.of(context);
+                        notifier.disconnect();
                       },
                     ),
-                    Gap(theme.spacing.regular),
                   ],
-                  AppTextButton(
-                    title: 'Disconnect',
-                    onTap: () {
-                      final notifier = AppStateNotifier.of(context);
-                      notifier.disconnect();
-                    },
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        }),
       ),
     );
   }
@@ -89,6 +92,19 @@ class _Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
+    final name = context
+        .read<AppStateNotifier>()
+        .value
+        .map(
+          initializing: (x) => null,
+          initializationFailed: (x) => null,
+          initialized: (x) => x.info,
+          authenticated: (x) => x.info,
+          authenticating: (x) => x.info,
+          authenticationFailed: (x) => x.info,
+          notAuthenticated: (x) => x.info,
+        )
+        ?.name;
     return TapBuilder(
       onTap: () => context.go('/'),
       builder: (context, state, isFocus) {
@@ -108,6 +124,7 @@ class _Logo extends StatelessWidget {
           padding: EdgeInsets.all(theme.spacing.regular),
           child: Row(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 'micro',
@@ -119,6 +136,16 @@ class _Logo extends StatelessWidget {
                 'pub',
                 style: theme.typography.title3,
               ),
+              if (name != null)
+                Padding(
+                  padding: EdgeInsets.only(left: theme.spacing.small),
+                  child: Text(
+                    name,
+                    style: theme.typography.paragraph3.copyWith(
+                      color: theme.color.heroBarFieldPlaceholder,
+                    ),
+                  ),
+                ),
             ],
           ),
         );

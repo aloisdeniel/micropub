@@ -14,6 +14,8 @@ class ColorData extends Equatable {
     required this.heroBarText2,
     required this.primaryButtonBackground,
     required this.primaryButtonForeground,
+    required this.destructiveButtonBackground,
+    required this.destructiveButtonForeground,
     required this.barBarBackground,
     required this.barBarText1,
     required this.bodyHoverBackground,
@@ -21,6 +23,9 @@ class ColorData extends Equatable {
     required this.tabsForeground,
     required this.tabsHoverForeground,
     required this.tabsSelectedForeground,
+    required this.adminAccent,
+    required this.readAccent,
+    required this.writeAccent,
   });
 
   const ColorData.light()
@@ -38,10 +43,15 @@ class ColorData extends Equatable {
         bodyAccentText1 = const Color(0xFF0175c2),
         primaryButtonBackground = const Color(0xFF31b0fc),
         primaryButtonForeground = const Color(0xFF132030),
+        destructiveButtonBackground = const Color(0xFFE9343F),
+        destructiveButtonForeground = const Color(0xFF501014),
         tabsBackground = const Color(0xFFf5f5f7),
         tabsForeground = const Color(0xFF4a4a4a),
         tabsHoverForeground = const Color(0xFFDFDEDD),
-        tabsSelectedForeground = const Color(0xFF1967d2);
+        tabsSelectedForeground = const Color(0xFF1967d2),
+        readAccent = const Color(0xff1967d2),
+        writeAccent = const Color(0xffffa500),
+        adminAccent = const Color.fromARGB(255, 136, 68, 196);
 
   final Color barBarBackground;
   final Color barBarText1;
@@ -60,6 +70,12 @@ class ColorData extends Equatable {
 
   final Color primaryButtonBackground;
   final Color primaryButtonForeground;
+  final Color destructiveButtonBackground;
+  final Color destructiveButtonForeground;
+
+  final Color readAccent;
+  final Color writeAccent;
+  final Color adminAccent;
 
   final Color bodyBackground;
   final Color bodyHoverBackground;

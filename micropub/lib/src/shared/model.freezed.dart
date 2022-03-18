@@ -1371,3 +1371,199 @@ abstract class _MicropubAccessKey implements MicropubAccessKey {
   _$MicropubAccessKeyCopyWith<_MicropubAccessKey> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+MicropubServerInfo _$MicropubServerInfoFromJson(Map<String, dynamic> json) {
+  return _MicropubServerInfo.fromJson(json);
+}
+
+/// @nodoc
+class _$MicropubServerInfoTearOff {
+  const _$MicropubServerInfoTearOff();
+
+  _MicropubServerInfo call(
+      {String? name,
+      required String adminEmail,
+      required String distantHostUrl}) {
+    return _MicropubServerInfo(
+      name: name,
+      adminEmail: adminEmail,
+      distantHostUrl: distantHostUrl,
+    );
+  }
+
+  MicropubServerInfo fromJson(Map<String, Object?> json) {
+    return MicropubServerInfo.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $MicropubServerInfo = _$MicropubServerInfoTearOff();
+
+/// @nodoc
+mixin _$MicropubServerInfo {
+  String? get name => throw _privateConstructorUsedError;
+  String get adminEmail => throw _privateConstructorUsedError;
+  String get distantHostUrl => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MicropubServerInfoCopyWith<MicropubServerInfo> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MicropubServerInfoCopyWith<$Res> {
+  factory $MicropubServerInfoCopyWith(
+          MicropubServerInfo value, $Res Function(MicropubServerInfo) then) =
+      _$MicropubServerInfoCopyWithImpl<$Res>;
+  $Res call({String? name, String adminEmail, String distantHostUrl});
+}
+
+/// @nodoc
+class _$MicropubServerInfoCopyWithImpl<$Res>
+    implements $MicropubServerInfoCopyWith<$Res> {
+  _$MicropubServerInfoCopyWithImpl(this._value, this._then);
+
+  final MicropubServerInfo _value;
+  // ignore: unused_field
+  final $Res Function(MicropubServerInfo) _then;
+
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? adminEmail = freezed,
+    Object? distantHostUrl = freezed,
+  }) {
+    return _then(_value.copyWith(
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      adminEmail: adminEmail == freezed
+          ? _value.adminEmail
+          : adminEmail // ignore: cast_nullable_to_non_nullable
+              as String,
+      distantHostUrl: distantHostUrl == freezed
+          ? _value.distantHostUrl
+          : distantHostUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$MicropubServerInfoCopyWith<$Res>
+    implements $MicropubServerInfoCopyWith<$Res> {
+  factory _$MicropubServerInfoCopyWith(
+          _MicropubServerInfo value, $Res Function(_MicropubServerInfo) then) =
+      __$MicropubServerInfoCopyWithImpl<$Res>;
+  @override
+  $Res call({String? name, String adminEmail, String distantHostUrl});
+}
+
+/// @nodoc
+class __$MicropubServerInfoCopyWithImpl<$Res>
+    extends _$MicropubServerInfoCopyWithImpl<$Res>
+    implements _$MicropubServerInfoCopyWith<$Res> {
+  __$MicropubServerInfoCopyWithImpl(
+      _MicropubServerInfo _value, $Res Function(_MicropubServerInfo) _then)
+      : super(_value, (v) => _then(v as _MicropubServerInfo));
+
+  @override
+  _MicropubServerInfo get _value => super._value as _MicropubServerInfo;
+
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? adminEmail = freezed,
+    Object? distantHostUrl = freezed,
+  }) {
+    return _then(_MicropubServerInfo(
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      adminEmail: adminEmail == freezed
+          ? _value.adminEmail
+          : adminEmail // ignore: cast_nullable_to_non_nullable
+              as String,
+      distantHostUrl: distantHostUrl == freezed
+          ? _value.distantHostUrl
+          : distantHostUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+@JsonSerializable(explicitToJson: true, anyMap: true)
+class _$_MicropubServerInfo implements _MicropubServerInfo {
+  const _$_MicropubServerInfo(
+      {this.name, required this.adminEmail, required this.distantHostUrl});
+
+  factory _$_MicropubServerInfo.fromJson(Map<String, dynamic> json) =>
+      _$$_MicropubServerInfoFromJson(json);
+
+  @override
+  final String? name;
+  @override
+  final String adminEmail;
+  @override
+  final String distantHostUrl;
+
+  @override
+  String toString() {
+    return 'MicropubServerInfo(name: $name, adminEmail: $adminEmail, distantHostUrl: $distantHostUrl)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _MicropubServerInfo &&
+            const DeepCollectionEquality().equals(other.name, name) &&
+            const DeepCollectionEquality()
+                .equals(other.adminEmail, adminEmail) &&
+            const DeepCollectionEquality()
+                .equals(other.distantHostUrl, distantHostUrl));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(name),
+      const DeepCollectionEquality().hash(adminEmail),
+      const DeepCollectionEquality().hash(distantHostUrl));
+
+  @JsonKey(ignore: true)
+  @override
+  _$MicropubServerInfoCopyWith<_MicropubServerInfo> get copyWith =>
+      __$MicropubServerInfoCopyWithImpl<_MicropubServerInfo>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_MicropubServerInfoToJson(this);
+  }
+}
+
+abstract class _MicropubServerInfo implements MicropubServerInfo {
+  const factory _MicropubServerInfo(
+      {String? name,
+      required String adminEmail,
+      required String distantHostUrl}) = _$_MicropubServerInfo;
+
+  factory _MicropubServerInfo.fromJson(Map<String, dynamic> json) =
+      _$_MicropubServerInfo.fromJson;
+
+  @override
+  String? get name;
+  @override
+  String get adminEmail;
+  @override
+  String get distantHostUrl;
+  @override
+  @JsonKey(ignore: true)
+  _$MicropubServerInfoCopyWith<_MicropubServerInfo> get copyWith =>
+      throw _privateConstructorUsedError;
+}

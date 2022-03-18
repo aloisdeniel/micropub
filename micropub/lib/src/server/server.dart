@@ -34,7 +34,7 @@ class MicropubServer {
 
     // Base services
     final auth = MicropubHiveAuth(
-      adminKey: options.adminKey,
+      options: options,
     );
     final storage = this.storage ??
         MicropubHiveStorage(
@@ -45,18 +45,18 @@ class MicropubServer {
     final api = ApiController(
       auth: auth,
       storage: storage,
+      options: options,
     );
     final download = DownloadController(
       storage: storage,
     );
 
     /// Authenthified controllers
-    var apiHandler = const Pipeline()
+    final apiHandler = const Pipeline()
         .addMiddleware(logMiddleware('API'))
         .addMiddleware(corsHeaders())
-        .addMiddleware(auth.middleware)
         .addHandler(api.router);
-    var downloadHandler = const Pipeline()
+    final downloadHandler = const Pipeline()
         .addMiddleware(logMiddleware('Download'))
         .addMiddleware(corsHeaders())
         .addMiddleware(auth.middleware)

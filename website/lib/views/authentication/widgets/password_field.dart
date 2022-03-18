@@ -6,10 +6,12 @@ class PasswordField extends StatefulWidget {
     Key? key,
     required this.initial,
     required this.onChanged,
+    required this.onSubmitted,
   }) : super(key: key);
 
   final String initial;
   final ValueChanged<String> onChanged;
+  final ValueChanged<String> onSubmitted;
 
   @override
   State<PasswordField> createState() => _PasswordFieldState();
@@ -37,9 +39,8 @@ class _PasswordFieldState extends State<PasswordField> {
       child: Material(
         color: Colors.transparent,
         child: TextField(
-          onChanged: (value) {
-            widget.onChanged(value);
-          },
+          onChanged: widget.onChanged,
+          onSubmitted: widget.onSubmitted,
           controller: controller,
           style: theme.typography.paragraph1.copyWith(
             color: theme.color.heroBarFieldText1,
@@ -63,7 +64,12 @@ class _PasswordFieldState extends State<PasswordField> {
             ),
             contentPadding: EdgeInsets.symmetric(
               horizontal: theme.spacing.regular,
+              vertical: theme.spacing.small,
             ),
+          ),
+          scrollPadding: EdgeInsets.symmetric(
+            horizontal: theme.spacing.regular,
+            vertical: theme.spacing.small,
           ),
           autocorrect: false,
           obscureText: true,

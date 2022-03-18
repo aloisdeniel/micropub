@@ -124,3 +124,18 @@ Map<String, dynamic> _$$_MicropubAccessKeyToJson(
           .map((e) => _$MicropubAuthorizationEnumMap[e])
           .toList(),
     };
+
+_$_MicropubServerInfo _$$_MicropubServerInfoFromJson(Map json) =>
+    _$_MicropubServerInfo(
+      name: json['name'] as String?,
+      adminEmail: json['adminEmail'] as String,
+      distantHostUrl: json['distantHostUrl'] as String,
+    );
+
+Map<String, dynamic> _$$_MicropubServerInfoToJson(
+        _$_MicropubServerInfo instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'adminEmail': instance.adminEmail,
+      'distantHostUrl': instance.distantHostUrl,
+    };

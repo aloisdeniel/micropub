@@ -15,9 +15,9 @@ class AppThemeData extends Equatable {
     required this.radius,
   });
 
-  const AppThemeData.fallback()
+  AppThemeData.fallback()
       : color = const ColorData.light(),
-        typography = const TypographyData.regular(),
+        typography = TypographyData.regular(),
         spacing = const SpacingData.regular(),
         radius = const RadiusData.regular(),
         size = const SizesData.regular();
