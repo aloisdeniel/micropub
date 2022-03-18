@@ -30,7 +30,7 @@ class AppStateNotifier extends ValueNotifier<AppState> {
     try {
       value = const AppState.authenticating();
       final client = MicropubApiClient(
-        baseUri: kDebugMode ? 'http://localhost:8080/api' : '/api',
+        baseUri: kDebugMode ? 'http://localhost:8080/' : '/',
         accessKey: accessKey,
       );
       final me = await client.me();

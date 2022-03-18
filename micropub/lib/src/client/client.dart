@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:micropub/src/shared/model.dart';
-import 'package:path/path.dart';
 
 class MicropubApiClient {
   const MicropubApiClient({
