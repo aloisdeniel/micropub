@@ -9,7 +9,7 @@ A minimalist private pub server for small teams.
 To install the server on your server from the `install.sh` script.
 
 ```bash
-curl -s https://raw.githubusercontent.com/aloisdeniel/micropub/main/install.sh | bash -s v0.0.16
+curl -s https://raw.githubusercontent.com/aloisdeniel/micropub/main/install.sh | bash -s v0.0.26
 ```
 
 > You may need to install `unzip` tool before install.
