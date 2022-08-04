@@ -91,8 +91,8 @@ class MicropubAccessKey with _$MicropubAccessKey {
     required List<MicropubAuthorization> authorizations,
   }) = _MicropubAccessKey;
 
-  factory MicropubAccessKey.fromJson(Map<String, dynamic> map) =>
-      _$MicropubAccessKeyFromJson(map);
+  factory MicropubAccessKey.fromJson(Map<dynamic, dynamic> map) =>
+      _$MicropubAccessKeyFromJson(map.cast<String, dynamic>());
 }
 
 @Freezed()
