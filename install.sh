@@ -45,12 +45,14 @@ echo ""
 if [[ "$OSTYPE" == "darwin"* ]]; then
     echo " <~~ Downloading micropub.exe for macOS"
     curl -L $base_download_uri/micropub-macos.exe -o $outputdir/micropub.exe
+    chmod +x $outputdir/micropub.exe
 elif [[ "$OSTYPE" == "cygwin" ]]; then
     echo " <~~ Downloading micropub.exe for Windows"
     curl -L $base_download_uri/micropub-windows.exe -o $outputdir/micropub.exe
 else
     echo " <~~ Downloading micropub.exe for Ubuntu"
     curl -L $base_download_uri/micropub-ubuntu.exe -o $outputdir/micropub.exe
+    chmod +x $outputdir/micropub.exe
 fi
 
 echo ""
